@@ -52,13 +52,46 @@ const GRAPH = (() => {
   }
 
   const INK = "#2f2a24";
+  /* 传统色系：霁蓝 · 官绿 · 赭石 · 赤褐 · 紫灰 · 青碧（取浅色调，保证墨字可读） */
+  const C = {
+    root: "#B04A3E",      /* 朱砂——本名（配浅色字） */
+    alias: "#7E97B8",     /* 霁蓝——别称 */
+    emotion: "#CE9459",   /* 琥珀——情感 */
+    compound: "#7C9E7E",  /* 官绿——复合意象 */
+    film: "#6E9BA5",      /* 青碧——电影 */
+    edgeNeutral: "#ADA394",
+    edgeEmotion: "#C9B49A",
+    edgeCompound: "#7FA184",
+    edgeFilm: "#7FA6AD",
+    hubFill: "rgba(138, 131, 117, 0.16)",
+    hubLine: "#8A8375",
+    hubText: "#5d554a"
+  };
+  /* 各层同色系的深浅变化——扩大色彩范围，节点不至于一片死色 */
+  const TINTS = {
+    alias: ["#7E97B8", "#93AAC6", "#6B86AA", "#A3B6CD"],
+    emotion: ["#CE9459", "#D9AB77", "#C0824C", "#E0BD92"],
+    compound: ["#7C9E7E", "#91AF93", "#698D6B", "#A7BFA4"],
+    film: ["#6E9BA5", "#85ACB4", "#59878F", "#9DBFC5"]
+  };
   const PALETTE = {
-    "天象": "#9e3d33", "草木": "#4a6b57", "禽鸟": "#8a6d2f",
-    "器物": "#54627f", "器物·饮食": "#54627f"
+    "天象": "#55779E",
+    "草木": "#567B57",
+    "地理": "#8B6C4A",
+    "动物": "#B65C44",
+    "禽鸟": "#8A6FA0",
+    "器物": "#4E7F87",
+    "建筑": "#907062"
   };
 
   function esc(s) {
     return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+
+  /* 按文字长度撑大节点，使底色完整覆盖文字 */
+  function fitSize(text, base, fs) {
+    const n = Array.from(String(text)).length;
+    return Math.max(base, n * (fs || 13) + 26);
   }
 
   /* ============ 1. 单意象生成链 ============ */
@@ -74,9 +107,9 @@ const GRAPH = (() => {
     const nodes = [], links = [];
 
     nodes.push({
-      id: "root", name: d.name, x: LAYER_X.root, y: 0, symbolSize: 76,
-      category: 0, itemStyle: { color: "#9e3d33" },
-      label: { show: true, fontSize: 24, color: "#f7f2e6", fontWeight: "bold" },
+      id: "root", name: d.name, x: LAYER_X.root, y: 0, symbolSize: fitSize(d.name, 76, 26),
+      category: 0, itemStyle: { color: C.root, borderColor: "#fbf8f0", borderWidth: 2 },
+      label: { show: true, fontSize: 26, color: "#f7f2e6", fontWeight: "bold", fontFamily: "Ma Shan Zheng, Noto Serif SC, serif" },
       tooltip: { content: "中心意象" }
     });
 
@@ -85,10 +118,14 @@ const GRAPH = (() => {
       const y = (i - (arr.length - 1) / 2) * 110;
       const id = "alias" + i;
       nodes.push({
-        id, name: a.alias, x: LAYER_X.alias, y, symbolSize: 34, category: 1,
+        id, name: a.alias, x: LAYER_X.alias, y,
+        symbolSize: fitSize(a.alias, 36),
+        symbol: "circle", category: 1,
+        itemStyle: { color: TINTS.alias[i % TINTS.alias.length], borderColor: "#fbf8f0", borderWidth: 1.5 },
+        label: { fontSize: 13, color: INK, fontWeight: 600 },
         tooltip: { content: esc(a.quote) + "<br>" + esc(a.from) }
       });
-      links.push({ source: "root", target: id, tag: i === 0 ? "异名" : "", lineStyle: { color: "#b7ab93" } });
+      links.push({ source: "root", target: id, tag: i === 0 ? "异名" : "", lineStyle: { color: C.edgeNeutral } });
     });
 
     /* 情感层 */
@@ -96,11 +133,14 @@ const GRAPH = (() => {
       const y = (i - (arr.length - 1) / 2) * 150;
       const id = "emo" + i;
       nodes.push({
-        id, name: e.emotion, x: LAYER_X.emotion, y, symbolSize: 46, category: 2,
-        itemStyle: { color: "#c08a52" },
+        id, name: e.emotion, x: LAYER_X.emotion, y,
+        symbolSize: fitSize(e.emotion, 48),
+        category: 2,
+        itemStyle: { color: TINTS.emotion[i % TINTS.emotion.length], borderColor: "#fbf8f0", borderWidth: 1.5 },
+        label: { fontSize: 13, color: INK, fontWeight: 600 },
         tooltip: { content: e.evidences.map(v => esc(v.quote) + "<br>" + esc(v.from)).join("<br><br>") }
       });
-      links.push({ source: "root", target: id, tag: i === 0 ? "触发" : "", lineStyle: { color: "#c08a52" } });
+      links.push({ source: "root", target: id, tag: i === 0 ? "触发" : "", lineStyle: { color: C.emotion } });
     });
 
     /* 复合意象层：情感凝结（carries 命中情感即连边） */
@@ -109,7 +149,11 @@ const GRAPH = (() => {
       const y = (i - (arr.length - 1) / 2) * 130;
       const id = "cpd" + i;
       nodes.push({
-        id, name: c.name, x: LAYER_X.compound, y, symbolSize: 40, category: 3,
+        id, name: c.name, x: LAYER_X.compound, y,
+        symbolSize: fitSize(c.name, 44),
+        category: 3,
+        itemStyle: { color: TINTS.compound[i % TINTS.compound.length], borderColor: "#fbf8f0", borderWidth: 1.5 },
+        label: { fontSize: 13, color: INK, fontWeight: 600 },
         tooltip: { content: esc(c.formula) + "<br>" + esc(c.quote) + "<br>" + esc(c.from) }
       });
       /* 与情感的凝结边：找 carries 里包含的情感名 */
@@ -120,14 +164,14 @@ const GRAPH = (() => {
           links.push({
             source: "emo" + j, target: id,
             tag: !labelledCondense ? "凝结" : "",
-            lineStyle: { color: "#4a6b57" }
+            lineStyle: { color: C.edgeCompound }
           });
           labelledCondense = true;
           linked = true;
         }
       });
       if (!linked) {
-        links.push({ source: "root", target: id, tag: "", lineStyle: { color: "#b7ab93" } });
+        links.push({ source: "root", target: id, tag: "", lineStyle: { color: C.edgeNeutral } });
       }
     });
 
@@ -137,8 +181,12 @@ const GRAPH = (() => {
       const y = (i - (arr.length - 1) / 2) * 190;
       const id = "film" + i;
       nodes.push({
-        id, name: f.title, x: LAYER_X.film, y, symbolSize: 42, category: 4,
+        id, name: f.title, x: LAYER_X.film, y,
+        symbolSize: [fitSize(f.title, 64), 46],
+        category: 4,
         symbol: "roundRect",
+        itemStyle: { color: TINTS.film[i % TINTS.film.length], borderColor: "#fbf8f0", borderWidth: 1.5, borderRadius: 8 },
+        label: { fontSize: 13, color: INK, fontWeight: 600 },
         tooltip: {
           content: esc(f.title) + "（" + f.year + "·" + esc(f.director) + "）<br>"
             + "情绪：" + esc(f.emotion) + "<br>手法：" + f.mode
@@ -151,7 +199,7 @@ const GRAPH = (() => {
           links.push({
             source: "cpd" + j, target: id,
             tag: !labelledTrans ? "转译" : "",
-            lineStyle: { color: "#54627f" }
+            lineStyle: { color: C.edgeFilm }
           });
           labelledTrans = true;
           linked = true;
@@ -167,11 +215,11 @@ const GRAPH = (() => {
           links.push({
             source: "emo" + emoIdx, target: id,
             tag: !labelledTrans ? "转译" : "",
-            lineStyle: { color: "#54627f" }
+            lineStyle: { color: C.edgeFilm }
           });
           labelledTrans = true;
         } else {
-          links.push({ source: "root", target: id, tag: "", lineStyle: { color: "#54627f" } });
+          links.push({ source: "root", target: id, tag: "", lineStyle: { color: C.edgeNeutral } });
         }
       }
     });
@@ -198,14 +246,15 @@ const GRAPH = (() => {
           show: true, fontSize: 12, color: "#8a7f6d",
           formatter: p => (p.data && p.data.tag) || ""
         },
-        lineStyle: { color: "#b7ab93", width: 1.6, curveness: 0.08 },
+        lineStyle: { color: C.edgeNeutral, width: 1.6, curveness: 0.08, opacity: 0.85 },
         categories: layerNames.map((n, i) => ({
           name: n,
-          itemStyle: { color: ["#9e3d33", "#6b6154", "#c08a52", "#4a6b57", "#54627f"][i] }
+          itemStyle: { color: [C.root, C.alias, C.emotion, C.compound, C.film][i] }
         })),
         data: nodes,
         links
-      }]
+      }],
+      textStyle: { fontFamily: "Noto Serif SC, Source Han Serif SC, serif" }
     });
   }
 
@@ -240,7 +289,7 @@ const GRAPH = (() => {
     });
 
     const nodes = [], links = [];
-    const cats = ["天象", "草木", "禽鸟", "器物·饮食", "情感枢纽"];
+    const cats = ["天象", "草木", "地理", "动物", "禽鸟", "器物", "建筑"];
 
     IMAGERY_NAMES.forEach(name => {
       const d = WUSE.imagery[name];
@@ -248,7 +297,9 @@ const GRAPH = (() => {
       nodes.push({
         id: "i:" + name, name,
         symbolSize: 34 + deg * 5,
-        category: cats.indexOf(d.category) >= 0 ? cats.indexOf(d.category) : 3,
+        category: Math.max(cats.indexOf(d.category), 0),
+        itemStyle: { borderColor: "#fbf8f0", borderWidth: 2 },
+        label: { color: INK, fontWeight: 600 },
         tooltip: { content: esc(d.summary) },
         isImagery: true
       });
@@ -259,14 +310,14 @@ const GRAPH = (() => {
         if (imgs.length < 2) return; /* 只显示被两个以上意象共享的情感枢纽 */
         nodes.push({
           id: "e:" + emo, name: emo, symbolSize: 26,
-          category: 4, isHub: true,
-          itemStyle: { color: "#c9b8a0", borderColor: "#9a8f7e", borderWidth: 1 },
-          label: { fontSize: 12, color: "#6b6154" },
+          category: -1, isHub: true,
+          itemStyle: { color: C.hubFill, borderColor: C.hubLine, borderWidth: 1.5 },
+          label: { fontSize: 12, color: C.hubText },
           tooltip: { content: "共享此情的意象：" + imgs.map(esc).join("、") }
         });
         imgs.forEach(n => links.push({
           source: "i:" + n, target: "e:" + emo,
-          lineStyle: { color: "#cbbfa8", width: 1, type: "dashed" }
+          lineStyle: { color: C.edgeEmotion, width: 1.2, type: "dashed", opacity: 0.7 }
         }));
       });
     }
@@ -277,7 +328,7 @@ const GRAPH = (() => {
         source: "i:" + l.a, target: "i:" + l.b,
         value: l.s,
         label: { show: false, formatter: l.type },
-        lineStyle: { width: 0.8 + l.s * 0.9, color: "#a89a7f" },
+        lineStyle: { width: 0.8 + l.s * 0.9, color: C.edgeNeutral, opacity: 0.8, curveness: 0.12 },
         tooltip: { content: l.type + "（强度 " + l.s + "）<br>" + esc(l.evidence) },
         isImageryLink: true
       });
@@ -297,17 +348,20 @@ const GRAPH = (() => {
       },
       legend: [{
         data: cats, bottom: 10, selectedMode: "multiple",
-        textStyle: { color: "#6b6154" }
+        textStyle: { color: "#6b6154" }, itemWidth: 14, itemHeight: 10,
+        icon: "circle"
       }],
       series: [{
         type: "graph", layout: "force", roam: true, draggable: true,
-        categories: cats.map(c => ({ name: c, itemStyle: { color: PALETTE[c] || "#54627f" } })),
-        force: { repulsion: 320, edgeLength: [60, 140], gravity: 0.08, friction: 0.2 },
+        categories: cats.map(c => ({ name: c, itemStyle: { color: PALETTE[c] || "#8A8375" } })),
+        force: { repulsion: 380, edgeLength: [60, 150], gravity: 0.09, friction: 0.2 },
         label: { show: true, color: INK, fontSize: 15 },
         edgeSymbol: ["none", "none"],
         emphasis: { focus: "adjacency", lineStyle: { width: 3 } },
-        data: nodes, links
-      }]
+        data: nodes,
+        links
+      }],
+      textStyle: { fontFamily: "Noto Serif SC, Source Han Serif SC, serif" }
     });
 
     chart.off("click");

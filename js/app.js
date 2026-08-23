@@ -90,7 +90,7 @@
           <datalist id="search-list">${IMAGERY_NAMES.map(n => `<option value="${n}">`).join("")}</datalist>
           <button type="submit">物色</button>
         </form>
-        <p class="search-hint">支持任意关键词检索公开诗词库（不限于收录的十个意象）</p>
+        <p class="search-hint">支持任意关键词检索公开诗词库（不限于收录的意象）</p>
       </section>
 
       <section class="quick-tags">
@@ -143,8 +143,8 @@
       </div>
 
       <section class="detail-section" id="sec-alias">
-        <h2>名 · 别称考</h2>
-        <p class="section-sub">词汇层面的异名——「雨」被叫做什么。与下文「复合意象」性质不同：那是意境，这是名字。</p>
+        <h2>名 · 异名同实</h2>
+        <p class="section-sub">「异名同实，其指一也」——《庄子》。同一个「雨」，古人为它造了许多名字。注意与下文「复合意象」不同：那是意境，这是名字。</p>
         <div class="alias-grid">
           ${(d.aliases || []).map(a => `
             <div class="card alias-card">
@@ -423,8 +423,7 @@
           <li><b>译</b>（跨媒介层）：电影对意象的转译，注明情绪功能与古典溯源（承接 / 化用 / 反用）。</li>
         </ul>
 
-        <div class="noai"><b>零 AI 声明</b>：本站不含任何 AI 生成内容。词条由人工整理、仅录真实出处；
-        联网例证为 chinese-poetry 公开诗词库原文照录；百科摘录来自维基百科。每条内容均有来源徽标可溯源。</div>
+        <div class="noai"><b>内容声明</b>：本站内置词条由编者参考公开文献整理，逐条标注原始出处，引文均为真实文献原句（整理过程借助了工具辅助，非纯手工誊录）；联网例证为 chinese-poetry 公开诗词库原文照录；百科摘录来自维基百科。每条内容均有来源徽标可溯源，引文若有讹误欢迎指正。</div>
 
         <h2>数据来源</h2>
         <ul>
