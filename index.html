@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>物色集 · 意象百科与意象网</title>
+<meta name="description" content="物色集——检索中国古典文学中意象的别称、历代流变、电影描写，并绘制意象关系网络。数据来自公开诗词数据库，无 AI 生成内容。">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="#/">
+    <span class="seal" aria-hidden="true">物色</span>
+    <span class="brand-text">
+      <strong>物色集</strong>
+      <small>意象百科 · 意象网</small>
+    </span>
+  </a>
+  <nav class="site-nav">
+    <a href="#/" data-nav="home">首页</a>
+    <a href="#/net" data-nav="net">意象网</a>
+    <a href="#/about" data-nav="about">关于</a>
+    <button id="btn-settings" class="ghost-btn" type="button">设置</button>
+  </nav>
+</header>
+
+<main id="view"></main>
+
+<footer class="site-footer">
+  <p class="motto">「岁有其物，物有其容；情以物迁，辞以情发。」——《文心雕龙·物色》</p>
+  <p class="colophon">
+    本站不含任何 AI 生成内容：词条由人工整理、仅录真实出处；联网例证为
+    <a href="https://github.com/chinese-poetry/chinese-poetry" target="_blank" rel="noopener">chinese-poetry</a>
+    公开诗词库原文照录；百科摘录来自维基百科（如可访问）。
+  </p>
+</footer>
+
+<!-- 设置弹窗 -->
+<div id="modal-settings" class="modal hidden" role="dialog" aria-modal="true" aria-label="设置">
+  <div class="modal-card">
+    <button class="modal-close" type="button" aria-label="关闭">×</button>
+    <h3>设置</h3>
+    <section>
+      <h4>数据镜像</h4>
+      <p id="mirror-status" class="muted">未检测</p>
+      <button id="btn-mirror-test" class="ghost-btn" type="button">测试并选择最快镜像</button>
+    </section>
+    <section>
+      <h4>本地缓存</h4>
+      <p id="cache-status" class="muted">—</p>
+      <button id="btn-cache-clear" class="ghost-btn" type="button">清除已缓存数据</button>
+    </section>
+    <section>
+      <h4>代理地址（第二阶段预留）</h4>
+      <input id="input-proxy" type="text" placeholder="例如 http://127.0.0.1:8787 （未实现，保存备用）">
+      <p class="muted">第二阶段将提供本地代理以接入 ctext.org（中华典籍）等有跨域限制的数据源。</p>
+    </section>
+  </div>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/sources.js"></script>
+<script src="js/graph.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
