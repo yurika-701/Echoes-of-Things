@@ -22,6 +22,7 @@
 
   const BADGE = {
     curated: '<span class="badge badge-curated">内置精选</span>',
+    auto: '<span class="badge badge-auto" title="由语料统计生成：词频、共现、原文例句均为程序计数结果">语料收录</span>',
     db: url => `<a class="badge badge-db" href="${url}" target="_blank" rel="noopener" title="查看原始数据文件">chinese-poetry</a>`,
     wiki: url => `<a class="badge badge-wiki" href="${url}" target="_blank" rel="noopener">维基百科</a>`,
     editor: '<span class="badge badge-editor">编者整理</span>'
@@ -59,12 +60,14 @@
 
   /* ---------- 首页 ---------- */
   function renderHome() {
+    const curated = WUSE.curatedNames || IMAGERY_NAMES;
+    const autoNames = IMAGERY_NAMES.filter(n => WUSE.imagery[n].tier === "auto");
     const aliasCount = IMAGERY_NAMES.reduce((n, k) => n + (WUSE.imagery[k].aliases || []).length, 0);
     const compoundCount = IMAGERY_NAMES.reduce((n, k) => n + (WUSE.imagery[k].compounds || []).length, 0);
     const filmCount = IMAGERY_NAMES.reduce((n, k) => n + (WUSE.imagery[k].films || []).length, 0);
 
     const groups = {};
-    IMAGERY_NAMES.forEach(n => {
+    curated.forEach(n => {
       const c = WUSE.imagery[n].category;
       (groups[c] = groups[c] || []).push(n);
     });
@@ -108,6 +111,7 @@
           <span><b>${compoundCount}</b>复合意象</span>
           <span><b>${filmCount}</b>电影转译</span>
         </div>
+        ${autoNames.length ? `<p class="auto-note muted">另含「语料收录」层 ${autoNames.length} 个意象——由程序对公开诗词库做词频统计自动生成（原文照录，无 AI 生成内容），在搜索框输入即可查询；首页仅展示编者精选层。</p>` : ""}
       </section>`;
 
     $("#home-search").addEventListener("submit", e => {
@@ -131,6 +135,7 @@
   /* ---------- 详情页 ---------- */
   function renderDetail(name) {
     const d = WUSE.imagery[name];
+    if (d.tier === "auto") return renderDetailAuto(d);
     const related = WUSE.imageryLinks.filter(l => l.a === name || l.b === name);
 
     view.innerHTML = `
@@ -261,6 +266,82 @@
     GRAPH.renderChain($("#chain-chart"), name).catch(e => {
       $("#chain-chart").innerHTML = '<p class="empty-note">图表加载失败：' + esc(e.message) + '</p>';
     });
+  }
+
+  /* ---------- 详情页（语料收录层） ---------- */
+  function renderDetailAuto(d) {
+    const name = d.name;
+    const dynText = Object.entries(d.dynasties || {}).sort((a, b) => b[1] - a[1])
+      .map(([k, v]) => `${esc(k)} ${v}`).join(" · ");
+    const maxHits = Math.max(1, ...(d.emotions || []).map(e => e.hits));
+    const kwBreakdown = d.kwFreq ? "　｜　命中：" + Object.entries(d.kwFreq)
+      .sort((a, b) => b[1] - a[1]).slice(0, 6)
+      .map(([k, v]) => `${esc(k)} ${v}`).join("、") : "";
+    const aliasCard = (d.aliases || []).length ? `
+      <section class="detail-section" id="sec-alias">
+        <h2>名 · 异名同实</h2>
+        <p class="section-sub">「异名同实，其指一也」——《庄子》。本条雅称为编者整理，出处随条标注。</p>
+        <div class="alias-grid">
+          ${(d.aliases || []).map(a => `
+            <div class="card alias-card">
+              <div class="alias-name">${esc(a.alias)}<span class="kind">${esc(a.kind)}</span></div>
+              ${a.note ? `<p class="note">${esc(a.note)}</p>` : ""}
+              ${a.quote ? `<blockquote>${esc(a.quote)}</blockquote>` : ""}
+              <p class="from">${esc(a.from)}</p>
+            </div>`).join("")}
+        </div>
+      </section>` : "";
+
+    view.innerHTML = `
+      <div class="detail-head">
+        <div class="watermark">${esc(name)}</div>
+        <p class="breadcrumb"><a href="#/">首页</a> / 收录层 / ${esc(name)}</p>
+        <h1>${esc(name)}</h1>
+        <p class="cat">〔${esc(d.category)}〕 ${BADGE.auto}</p>
+        <p class="summary">${esc(d.summary)}</p>
+        <p class="muted">语料统计（含别称）：出现 <b>${d.freq}</b> 次 · ${d.authorCount} 位作者${dynText ? `　｜　朝代分布：${dynText}` : ""}${kwBreakdown}</p>
+      </div>
+
+      ${aliasCard}
+
+      ${(d.emotions || []).length ? `
+      <section class="detail-section" id="sec-emotion">
+        <h2>情 · 共现统计</h2>
+        <p class="section-sub">含「${esc(name)}」的诗句中，下列情感字的出现频次——程序计数结果，供检索线索而非定论。</p>
+        <div class="stat-bars">
+          ${d.emotions.map(e => `
+            <div class="stat-bar-row">
+              <span class="stat-label">${esc(e.emotion)}</span>
+              <span class="stat-track"><span class="stat-fill" style="width:${Math.round(e.hits / maxHits * 100)}%"></span></span>
+              <span class="stat-num">${e.hits}</span>
+            </div>`).join("")}
+        </div>
+      </section>` : ""}
+
+      <section class="detail-section" id="sec-examples">
+        <h2>句 · 语料例证</h2>
+        <p class="section-sub">公开诗词库原文照录（每句含「${esc(name)}」），来源可点。</p>
+        <div class="result-group">
+          ${(d.examples || []).map(ex => {
+            const hitKws = ex.kw && ex.kw !== name ? [ex.kw] : [name];
+            return `
+            <div class="result-item">
+              <div class="line">${highlight(ex.line, hitKws)}</div>
+              <div class="meta">〔${esc(ex.dynasty)}〕${esc(ex.author)}《${esc(ex.title)}》· ${esc(ex.srcLabel)}${ex.kw && ex.kw !== name ? ` · 命中别称「${esc(ex.kw)}」` : ""}</div>
+            </div>`; }).join("") || '<p class="muted">暂无语料命中。</p>'}
+        </div>
+      </section>
+
+      ${(d.collocates || []).length ? `
+      <section class="detail-section" id="sec-co">
+        <h2>网 · 同句共现</h2>
+        <p class="section-sub">与「${esc(name)}」同句出现最多的意象词（按共现次数排序）。</p>
+        <div class="tag-cloud" style="justify-content:flex-start">
+          ${d.collocates.map(c => WUSE.imagery[c.name]
+            ? `<a class="tag" href="#/i/${encodeURIComponent(c.name)}">${esc(c.name)}<span class="muted">×${c.hits}</span></a>`
+            : `<a class="tag" href="#/k/${encodeURIComponent(c.name)}">${esc(c.name)}<span class="muted">×${c.hits}</span></a>`).join("")}
+        </div>
+      </section>` : ""}`;
   }
 
   /* ---------- 联网检索（详情页与关键词页共用） ---------- */

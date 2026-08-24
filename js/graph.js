@@ -291,7 +291,8 @@ const GRAPH = (() => {
     const nodes = [], links = [];
     const cats = ["天象", "草木", "地理", "动物", "禽鸟", "器物", "建筑"];
 
-    IMAGERY_NAMES.forEach(name => {
+    /* 全局网仅展示精选层（收录层条目无完整五层数据，上千节点亦无法布局） */
+    (WUSE.curatedNames || IMAGERY_NAMES).forEach(name => {
       const d = WUSE.imagery[name];
       const deg = degree[name] || 0;
       nodes.push({

@@ -2131,6 +2131,8 @@ const WUSE = {
 
 /* 全局统计与便捷访问 */
 const IMAGERY_NAMES = Object.keys(WUSE.imagery);
+/* 精选层名单快照（在 data-auto.js 合并收录层之前）——首页分组、意象网仅展示精选层 */
+WUSE.curatedNames = IMAGERY_NAMES.slice();
 const EMOTION_HUBS = (() => {
   const map = new Map(); // emotion -> [imagery...]
   for (const name of IMAGERY_NAMES) {

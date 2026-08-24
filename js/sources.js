@@ -123,9 +123,10 @@ const SOURCES = (() => {
     { id: "gwgz",      label: "古文观止", dynasty: "历代", kind: "single", path: "蒙学/guwenguanzhi.json" },
     { id: "tang300",   label: "唐诗三百首", dynasty: "唐",  kind: "single", path: "蒙学/tangshisanbaishou.json" },
     { id: "quantang",  label: "全唐诗",   dynasty: "唐",   kind: "series",
-      file: i => `全唐诗/poet.tang.${i}.json`, maxFiles: 400 },
+      /* 仓库按作者 ID 分块：poet.tang.{0,1000,...,57000}.json 共 58 卷 */
+      file: i => `全唐诗/poet.tang.${i * 1000}.json`, maxFiles: 58 },
     { id: "songci",    label: "全宋词",   dynasty: "宋",   kind: "series",
-      file: i => `宋词/ci.song.${i}.json`, maxFiles: 400 }
+      file: i => `宋词/ci.song.${i * 1000}.json`, maxFiles: 22 }
   ];
 
   function sourceBrowseUrl(src, i) {
