@@ -206,6 +206,22 @@
         </div>
       </section>
 
+      ${(d.books || []).length ? `
+      <section class="detail-section" id="sec-books">
+        <h2>书 · 名著中的转译</h2>
+        <p class="section-sub">经典文学作品对同一意象的化用——与电影互为镜像，注明情绪功能与古典溯源。</p>
+        <div class="film-grid">
+          ${d.books.map(b => `
+            <div class="card film-card book-card">
+              <div class="film-title">《${esc(b.title)}》</div>
+              <div class="film-meta">${esc(b.author)} · 手法：${b.mode === "承" ? "承接传统" : b.mode === "反用" ? "反用传统" : "化用传统"} ${BADGE.editor}</div>
+              <p class="scene">${esc(b.scene)}</p>
+              <p class="emotion-line">情绪功能：<b>${esc(b.emotion)}</b></p>
+              <div class="lineage"><b>古典溯源：</b>${esc(b.lineage)}</div>
+            </div>`).join("")}
+        </div>
+      </section>` : ""}
+
       <section class="detail-section" id="sec-film">
         <h2>译 · 电影中的转译</h2>
         <p class="section-sub">不止罗列「哪些电影里下过雨」——每条注明情绪功能，及其对古典传统是承接、化用还是反用。</p>
@@ -222,22 +238,6 @@
           </div>` : `
           <p class="empty-note">编者整理中——本意象的电影转译条目尚未完成，欢迎补充。</p>`}
       </section>
-
-      ${(d.books || []).length ? `
-      <section class="detail-section" id="sec-books">
-        <h2>书 · 名著中的转译</h2>
-        <p class="section-sub">经典文学作品对同一意象的化用——与电影互为镜像，注明情绪功能与古典溯源。</p>
-        <div class="film-grid">
-          ${d.books.map(b => `
-            <div class="card film-card book-card">
-              <div class="film-title">《${esc(b.title)}》</div>
-              <div class="film-meta">${esc(b.author)} · 手法：${b.mode === "承" ? "承接传统" : b.mode === "反用" ? "反用传统" : "化用传统"} ${BADGE.editor}</div>
-              <p class="scene">${esc(b.scene)}</p>
-              <p class="emotion-line">情绪功能：<b>${esc(b.emotion)}</b></p>
-              <div class="lineage"><b>古典溯源：</b>${esc(b.lineage)}</div>
-            </div>`).join("")}
-        </div>
-      </section>` : ""}
 
       <section class="detail-section" id="sec-online">
         <h2>联网例证</h2>
