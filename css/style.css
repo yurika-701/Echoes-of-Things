@@ -269,6 +269,17 @@ a:hover { text-decoration: underline; }
 .stat-fill { display: block; height: 100%; background: linear-gradient(90deg, #9e3d33, #c07a5a); border-radius: 6px; }
 .stat-num { width: 40px; font-size: 12.5px; color: var(--ink-faint); }
 
+/* 时节语汇 */
+.season-filter { max-width: 420px; margin: 0 0 6px; }
+.season-filter input {
+  width: 100%; padding: 9px 14px; font: inherit; font-size: 14px;
+  color: var(--ink); background: var(--card);
+  border: 1px solid var(--line-soft); border-radius: 8px; outline: none;
+}
+.season-filter input:focus { border-color: rgba(158, 61, 51, 0.45); }
+.season-card blockquote { margin: 8px 0 0; }
+.season-card .from a { color: var(--cinnabar); }
+
 mark {
   background: rgba(158, 61, 51, 0.18);
   color: inherit;

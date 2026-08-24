@@ -35,6 +35,7 @@
     const h = decodeURIComponent(location.hash || "#/");
     if (h.startsWith("#/i/")) return { page: "detail", name: h.slice(4) };
     if (h.startsWith("#/k/")) return { page: "keyword", kw: h.slice(4) };
+    if (h.startsWith("#/season")) return { page: "season" };
     if (h.startsWith("#/net")) return { page: "net" };
     if (h.startsWith("#/about")) return { page: "about" };
     return { page: "home" };
@@ -50,9 +51,10 @@
 
   async function render() {
     const route = parseRoute();
-    setActiveNav(route.page === "net" || route.page === "about" ? route.page : "home");
+    setActiveNav(["net", "about", "season"].includes(route.page) ? route.page : "home");
     if (route.page === "detail" && WUSE.imagery[route.name]) return renderDetail(route.name);
     if (route.page === "keyword") return renderKeyword(route.kw);
+    if (route.page === "season") return renderSeason();
     if (route.page === "net") return renderNet();
     if (route.page === "about") return renderAbout();
     return renderHome();
@@ -360,6 +362,65 @@
             : `<a class="tag" href="#/k/${encodeURIComponent(c.name)}">${esc(c.name)}<span class="muted">×${c.hits}</span></a>`).join("")}
         </div>
       </section>` : ""}`;
+  }
+
+  /* ---------- 时节语汇 ---------- */
+  function renderSeason() {
+    const GROUP_DEFS = [
+      { key: "雨泽", hint: "落在正确时节的雨，各有其名", words: ["濯枝雨", "解霜雨", "桃花水", "梅雨", "杏花雨", "木樨蒸"] },
+      { key: "风信", hint: "风是季节的信使", words: ["黄雀风", "花信风", "熏风", "青岚", "金风", "朔风"] },
+      { key: "节令之日", hint: "被专门命名的一天", words: ["花朝", "竹醉日", "梅熟日", "牡丹时", "春尽日", "潮生日"] },
+      { key: "岁时代称", hint: "月份与四季的别名", words: ["太簇", "鸣蜩", "桃浪", "雁来月", "樱笋年光", "橘涂", "岁聿云暮", "小春日和", "青阳·朱明·白藏·玄英"] },
+      { key: "日辰时刻", hint: "一天之内的光阴刻度", words: [] } /* 兜底组 */
+    ];
+    const words = WUSE.seasonWords || [];
+    const groupOf = w => (GROUP_DEFS.find(g => g.words.includes(w.word)) || GROUP_DEFS[4]).key;
+
+    view.innerHTML = `
+      <div class="detail-head">
+        <div class="watermark">时节</div>
+        <p class="breadcrumb"><a href="#/">首页</a> / 时节语汇</p>
+        <h1>时节语汇</h1>
+        <p class="cat">〔岁时 · 物候〕 ${BADGE.curated}</p>
+        <p class="summary">古人为「什么时候」造了无数微妙的词：五六月的大雨叫濯枝雨，初夏第一阵微风叫青岚，一年将尽叫岁聿云暮。时间在他们那里不是刻度，是物候与心事的合拍。</p>
+      </div>
+      <div class="season-filter">
+        <input type="text" id="season-input" placeholder="筛选：如 雨 / 暮 / 五月……" autocomplete="off">
+      </div>
+      <div id="season-body">
+        ${GROUP_DEFS.map(g => {
+          const items = words.filter(w => groupOf(w) === g.key);
+          if (!items.length) return "";
+          return `
+          <section class="detail-section">
+            <h2>${esc(g.key)} <span class="muted" style="font-size:13px;font-weight:400">· ${g.hint}（${items.length}）</span></h2>
+            <div class="alias-grid">
+              ${items.map(w => `
+                <div class="card alias-card season-card" data-kw="${esc(w.word + " " + (w.pinyin || "") + " " + w.gloss)}">
+                  <div class="alias-name">${esc(w.word)}${w.pinyin ? `<span class="kind">${esc(w.pinyin)}</span>` : ""}</div>
+                  <p class="note">${esc(w.gloss)}</p>
+                  ${w.quote ? `<blockquote>${esc(w.quote)}</blockquote>` : ""}
+                  <p class="from">${esc(w.from)}${w.link && WUSE.imagery[w.link] ? ` · <a href="#/i/${encodeURIComponent(w.link)}">关联意象「${esc(w.link)}」→</a>` : ""}</p>
+                </div>`).join("")}
+            </div>
+          </section>`;
+        }).join("")}
+      </div>
+      <p class="empty-note hidden" id="season-empty">没有匹配的语汇。</p>`;
+
+    $("#season-input").addEventListener("input", e => {
+      const kw = e.target.value.trim().toLowerCase();
+      let any = false;
+      document.querySelectorAll("#season-body .season-card").forEach(card => {
+        const hit = !kw || card.dataset.kw.toLowerCase().includes(kw);
+        card.style.display = hit ? "" : "none";
+        if (hit) any = true;
+      });
+      document.querySelectorAll("#season-body .detail-section").forEach(sec => {
+        sec.style.display = [...sec.querySelectorAll(".season-card")].some(c => c.style.display !== "none") ? "" : "none";
+      });
+      $("#season-empty").classList.toggle("hidden", any || !kw);
+    });
   }
 
   /* ---------- 联网检索（详情页与关键词页共用） ---------- */
