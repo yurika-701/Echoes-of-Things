@@ -174,7 +174,7 @@ const SEEDS = [
   { name: "西瓜", category: "草木", aliases: [{ alias: "青门绿玉房", note: "青门瓜旧地＋绿玉言其瓤色", from: "按：明人诗语（整理）" }] },
   { name: "茄子", category: "草木", wiki: "茄", aliases: [{ alias: "落苏", note: "吴地方言对茄子的美称", from: "按：宋人笔记载其缘由（整理）" }] },
   { name: "银河", category: "天象", wiki: "银河", aliases: [{ alias: "星汉", note: "曹操以星汉咏沧海夜空", quote: "星汉灿烂，若出其里", from: "曹操《观沧海》" }, { alias: "银汉", note: "以银喻河汉", quote: "银汉迢迢暗度", from: "秦观《鹊桥仙》" }, { alias: "绛河", note: "北方之气深绛，故称", from: "按：《汉书》天文志注引（整理）" }, { alias: "天杭", note: "杭即航——天上之航路", from: "按：古人雅称汇编（整理）" }] },
-  { name: "太阳", category: "天象", wiki: "太阳", aliases: [{ alias: "皦日", note: "皦，白亮之日的古称", quote: "谓予不信，有如皦日", from: "《诗经·王风·大车》" }, { alias: "宝镜", note: "以镜喻日", from: "按：古人雅称汇编（整理）" }, { alias: "丹灵", note: "丹为日色，灵为神格", from: "按：古人雅称汇编（整理）" }] },
+  { name: "太阳", category: "天象", wiki: "太阳", aliases: [{ alias: "皦日", note: "皦，白亮之日的古称", quote: "谓予不信，有如皦日", from: "《诗经·王风·大车》" }, { alias: "宝镜", note: "以镜喻日", from: "按：古人雅称汇编（整理）" }, { alias: "丹灵", note: "丹为日色，灵为神格", from: "按：古人雅称汇编（整理）" }, { alias: "东君", note: "日神之名，后借代太阳", quote: "暾将出兮东方，照吾槛兮扶桑", from: "《楚辞·九歌·东君》" }, { alias: "羲和", note: "神话中为日驾车者，借代日", quote: "吾令羲和弭节兮，望崦嵫而勿迫", from: "屈原《离骚》" }] },
   { name: "石",   category: "地理", wiki: "岩石", aliases: [{ alias: "山骨", note: "石为山之骨", quote: "按：唐人以「云根」「山骨」称石（整理）", from: "按：古人雅称汇编（整理）" }, { alias: "云根", note: "古人谓云触石而生，故称石为云根", from: "按：杜诗注家习说（整理）" }] },
   { name: "露",   category: "天象", aliases: [{ alias: "天酒", note: "甘露之别称——天降之酒", quote: "甘露，一名天酒", from: "按：《瑞应图》（整理）" }, { alias: "玉液", note: "以玉膏喻清露", from: "按：与酒之「玉液」同源互借（整理）" }] }
 ];
@@ -192,13 +192,36 @@ const CATEGORY_CHARS = {
 };
 const CORE_CHARS = Object.values(CATEGORY_CHARS).join("");
 
-/* 功能/虚义二字组合黑名单（抽样即可，核心字过滤已挡掉大部分） */
-const STOP_GRAMS = new Set(("不知何处无人不见无限多少如此为谁不是自有相逢此时何须无可一片一声几处万里千里今日明朝昨日夜来春风秋风东风北风南风晓风清风微风晨光暮色月光明月光光景风景风格气象天气时候时节今夕何夕平生人间人间世上江南塞北山东河北上下东西南北高低远近新旧大小多少往来出入生死有无彼此彼此如此这般怎样怎样").split(""));
+/* 修饰字（可作二字意象的首/尾字）：明月、寒江、残阳、落花、春风…… */
+const MODIFIER_CHARS =
+  "明清寒暑残孤独斜疏淡暗浓冷暖烟霞暮晓早晚春冬秋夏朝宵宿归飞鸣啼落流浮沉轻幽静闲旷深空碧翠皓素皎丹朱玄苍茫渺漫平遥遥远久新故旧满半垂拂摇曳横斜倒影";
+
+/* 功能/数词字——任一命中即排除（杜绝「一日」「千里」类） */
+const FUNC_CHARS = new Set(
+  ("一二三四五六七八九十百千万亿零双半之乎者也的了是在有无不为与而于此彼何谁莫未已更最亦皆均只才将把被让向往自从对说言云曰焉哉兮").split("")
+);
+
+const isCJK = ch => /[\u4e00-\u9fff]/.test(ch);
+
+/* 规则过滤后仍需点名的漏网词 */
+const STOP_GRAMS_EXTRA = new Set(
+  ("明日|来日|往日|昔日|旧日|他日|竟日|终日|连日|当日|即日|今日|隔日|次日|风流|风头|风光").split("|")
+);
+
+/* 二字组是否像「意象词」：
+   1) 两字均为核心字（桥楼、琴棋），或
+   2) 一修饰 + 一核心（明月、寒江、春风）
+   叠字（日日）、含功能字（一日、不知）一律排除 */
+function looksLikeImageryGram(a, b) {
+  const C = ch => CORE_CHARS.includes(ch);
+  const M = ch => MODIFIER_CHARS.includes(ch);
+  if (a === b) return false;
+  if (FUNC_CHARS.has(a) || FUNC_CHARS.has(b)) return false;
+  return (M(a) && C(b)) || (C(a) && M(b)) || (C(a) && C(b));
+}
 
 /* 情感字共现词表（单字统计） */
 const EMOTION_CHARS = "愁悲哀伤怨恨忧愤怒喜怒欢乐笑思念忆恋爱慕孤独寂寞别离散归客游梦醉醒泪涕泣惊恐惧闲静幽清冷淡倦懒羞悔盼期待".split("");
-
-const isCJK = ch => /[\u4e00-\u9fff]/.test(ch);
 
 /* ---------- 主流程 ---------- */
 console.log("[1/5] 加载语料 ……");
@@ -220,9 +243,9 @@ for (const d of docs) {
     for (let i = 0; i < line.length - 1; i++) {
       const a = line[i], b = line[i + 1];
       if (!isCJK(a) || !isCJK(b)) continue;
-      if (!(CORE_CHARS.includes(a) || CORE_CHARS.includes(b))) continue;
+      if (!looksLikeImageryGram(a, b)) continue;
       const g = a + b;
-      if (STOP_GRAMS.has(g)) continue;
+      if (STOP_GRAMS_EXTRA.has(g)) continue;
       let rec = grams.get(g);
       if (!rec) { rec = { freq: 0, authors: new Set() }; grams.set(g, rec); }
       rec.freq++;
