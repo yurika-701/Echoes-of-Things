@@ -63,6 +63,7 @@ const GRAPH = (() => {
     edgeEmotion: "#C9B49A",
     edgeCompound: "#7FA184",
     edgeFilm: "#7FA6AD",
+    edgeBook: "#9D86B2",
     hubFill: "rgba(138, 131, 117, 0.16)",
     hubLine: "#8A8375",
     hubText: "#5d554a"
@@ -72,7 +73,8 @@ const GRAPH = (() => {
     alias: ["#7E97B8", "#93AAC6", "#6B86AA", "#A3B6CD"],
     emotion: ["#CE9459", "#D9AB77", "#C0824C", "#E0BD92"],
     compound: ["#7C9E7E", "#91AF93", "#698D6B", "#A7BFA4"],
-    film: ["#6E9BA5", "#85ACB4", "#59878F", "#9DBFC5"]
+    film: ["#6E9BA5", "#85ACB4", "#59878F", "#9DBFC5"],
+    book: ["#8A6FA0", "#9D86B2", "#755D8C", "#B09DC4"]
   };
   const PALETTE = {
     "天象": "#55779E",
@@ -103,7 +105,7 @@ const GRAPH = (() => {
     try { ech = await ensureECharts(); }
     catch (e) { return renderChainFallback(container, d); }
 
-    const LAYER_X = { root: 0, alias: -340, emotion: 300, compound: 700, film: 1100 };
+    const LAYER_X = { root: 0, alias: -340, emotion: 300, compound: 700, film: 1100, books: 1500 };
     const nodes = [], links = [];
 
     nodes.push({
@@ -192,7 +194,6 @@ const GRAPH = (() => {
             + "情绪：" + esc(f.emotion) + "<br>手法：" + f.mode
         }
       });
-      /* 优先从复合意象连出（lineage/scene 提及其名），否则从情感连出 */
       let linked = false;
       (d.compounds || []).forEach((c, j) => {
         if (!linked && f.lineage && (f.lineage.includes(c.name) || (f.scene || "").includes(c.name))) {
@@ -224,7 +225,56 @@ const GRAPH = (() => {
       }
     });
 
-    const layerNames = ["本名", "别称（词汇）", "情感", "复合意象", "电影（跨媒介）"];
+    /* 跨文本层：名著转译 */
+    let labelledBook = false;
+    (d.books || []).forEach((b, i, arr) => {
+      const y = (i - (arr.length - 1) / 2) * 190;
+      const id = "book" + i;
+      nodes.push({
+        id, name: b.title, x: LAYER_X.books, y,
+        symbolSize: [fitSize(b.title, 64), 46],
+        category: 5,
+        symbol: "roundRect",
+        itemStyle: { color: TINTS.book[i % TINTS.book.length], borderColor: "#fbf8f0", borderWidth: 1.5, borderRadius: 8 },
+        label: { fontSize: 13, color: INK, fontWeight: 600 },
+        tooltip: {
+          content: esc(b.title) + "（" + esc(b.author) + "）<br>"
+            + "情绪：" + esc(b.emotion) + "<br>手法：" + b.mode
+        }
+      });
+      /* 与电影层同构的连线逻辑 */
+      let linked = false;
+      (d.compounds || []).forEach((c, j) => {
+        if (!linked && b.lineage && (b.lineage.includes(c.name) || (b.scene || "").includes(c.name))) {
+          links.push({
+            source: "cpd" + j, target: id,
+            tag: !labelledBook ? "化入" : "",
+            lineStyle: { color: C.edgeBook }
+          });
+          labelledBook = true;
+          linked = true;
+        }
+      });
+      if (!linked) {
+        let emoIdx = 0;
+        (d.emotions || []).forEach((e, j) => {
+          const key = e.emotion.split("（")[0];
+          if (b.emotion && b.emotion.includes(key)) emoIdx = j;
+        });
+        if ((d.emotions || []).length) {
+          links.push({
+            source: "emo" + emoIdx, target: id,
+            tag: !labelledBook ? "化入" : "",
+            lineStyle: { color: C.edgeBook }
+          });
+          labelledBook = true;
+        } else {
+          links.push({ source: "root", target: id, tag: "", lineStyle: { color: C.edgeNeutral } });
+        }
+      }
+    });
+
+    const layerNames = ["本名", "别称（词汇）", "情感", "复合意象", "电影（跨媒介）", "名著（跨文本）"];
     const chart = mount(container);
     chart.setOption({
       backgroundColor: "transparent",
@@ -249,7 +299,7 @@ const GRAPH = (() => {
         lineStyle: { color: C.edgeNeutral, width: 1.6, curveness: 0.08, opacity: 0.85 },
         categories: layerNames.map((n, i) => ({
           name: n,
-          itemStyle: { color: [C.root, C.alias, C.emotion, C.compound, C.film][i] }
+          itemStyle: { color: [C.root, C.alias, C.emotion, C.compound, C.film, "#8A6FA0"][i] }
         })),
         data: nodes,
         links

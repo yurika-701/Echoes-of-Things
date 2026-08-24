@@ -65,6 +65,7 @@
     const aliasCount = IMAGERY_NAMES.reduce((n, k) => n + (WUSE.imagery[k].aliases || []).length, 0);
     const compoundCount = IMAGERY_NAMES.reduce((n, k) => n + (WUSE.imagery[k].compounds || []).length, 0);
     const filmCount = IMAGERY_NAMES.reduce((n, k) => n + (WUSE.imagery[k].films || []).length, 0);
+    const bookCount = IMAGERY_NAMES.reduce((n, k) => n + (WUSE.imagery[k].books || []).length, 0);
 
     const groups = {};
     curated.forEach(n => {
@@ -86,7 +87,7 @@
           <div class="layer-cell"><b>名 · 别称</b><span>词汇异名</span><span class="arrow">➤</span></div>
           <div class="layer-cell"><b>情 · 承载</b><span>物触发情<span class="arrow">➤</span></span></div>
           <div class="layer-cell"><b>境 · 复合</b><span>情凝结为境<span class="arrow">➤</span></div>
-          <div class="layer-cell"><b>译 · 跨媒介</b><span>电影转译</span></div>
+          <div class="layer-cell"><b>译 · 跨媒介</b><span>电影与名著转译</span></div>
         </div>
         <form class="search-box" id="home-search">
           <input type="text" id="search-input" list="search-list" placeholder="输入一个意象，如：雨" autocomplete="off">
@@ -110,6 +111,7 @@
           <span><b>${aliasCount}</b>别称</span>
           <span><b>${compoundCount}</b>复合意象</span>
           <span><b>${filmCount}</b>电影转译</span>
+          <span><b>${bookCount}</b>名著转译</span>
         </div>
         ${autoNames.length ? `<p class="auto-note muted">另含「语料收录」层 ${autoNames.length} 个意象——由程序对公开诗词库做词频统计自动生成（原文照录，无 AI 生成内容），在搜索框输入即可查询；首页仅展示编者精选层。</p>` : ""}
       </section>`;
@@ -220,6 +222,22 @@
           </div>` : `
           <p class="empty-note">编者整理中——本意象的电影转译条目尚未完成，欢迎补充。</p>`}
       </section>
+
+      ${(d.books || []).length ? `
+      <section class="detail-section" id="sec-books">
+        <h2>书 · 名著中的转译</h2>
+        <p class="section-sub">经典文学作品对同一意象的化用——与电影互为镜像，注明情绪功能与古典溯源。</p>
+        <div class="film-grid">
+          ${d.books.map(b => `
+            <div class="card film-card book-card">
+              <div class="film-title">《${esc(b.title)}》</div>
+              <div class="film-meta">${esc(b.author)} · 手法：${b.mode === "承" ? "承接传统" : b.mode === "反用" ? "反用传统" : "化用传统"} ${BADGE.editor}</div>
+              <p class="scene">${esc(b.scene)}</p>
+              <p class="emotion-line">情绪功能：<b>${esc(b.emotion)}</b></p>
+              <div class="lineage"><b>古典溯源：</b>${esc(b.lineage)}</div>
+            </div>`).join("")}
+        </div>
+      </section>` : ""}
 
       <section class="detail-section" id="sec-online">
         <h2>联网例证</h2>
