@@ -65,8 +65,8 @@ a:hover { text-decoration: underline; }
   display: block;
   width: 100%;
   height: 100%;
-  border-radius: 9px;
-  box-shadow: 0 2px 8px rgba(70, 32, 24, 0.28);
+  border-radius: 0;
+  box-shadow: 0 2px 8px rgba(43, 38, 32, 0.3);
   transition: transform 0.25s ease;
 }
 .brand:hover .seal svg { transform: rotate(-3deg) scale(1.03); }

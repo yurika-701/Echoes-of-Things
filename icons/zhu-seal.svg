@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="sealZhu" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#B0503F"/>
+      <stop offset=".55" stop-color="#9E3D33"/>
+      <stop offset="1" stop-color="#8A332B"/>
+    </linearGradient>
+  </defs>
+  <!-- 印地：朱砂 -->
+  <rect x="2" y="2" width="60" height="60" rx="14" fill="url(#sealZhu)"/>
+  <!-- 篆书「物」白文 -->
+  <g transform="translate(-1.5 1)" fill="none" stroke="#F9F4E7" stroke-width="4.2" stroke-linecap="round">
+    <!-- 牛 -->
+    <path d="M15.5 21.5 Q17 15.2 24.5 17 L24.5 47"/>
+    <path d="M14.5 32 L31 27.5"/>
+    <!-- 勿 -->
+    <path d="M33.5 16.5 C42 12.5 50 16 51.5 24 C53 31.5 50.5 40.5 44 46.8 Q41.8 48.6 39.8 47.2"/>
+    <path d="M41.5 24.5 C38.5 28.5 38 33.5 40.5 38"/>
+    <path d="M48.5 22.5 C45 27.5 44.8 33.5 47.5 38.5"/>
+  </g>
+</svg>

@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>物色集 · 图标备选（第三轮）</title>
+<!--
+  图标备选预览页 · 第三轮：去圆润，取方直锐角。直角册页底、剪影锐角、界画直线。
+  庚 夜檐月（檐角挑月）／辛 墨竹（直竿撇叶）／壬 孤帆（锐角帆影）。
+  定稿后替换 favicon.svg、apple-touch-icon.png 与顶栏印章。
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper: #f4efe3;
+  --paper-deep: #ece5d3;
+  --card: #fbf8f0;
+  --ink: #2f2a24;
+  --ink-soft: #6b6154;
+  --ink-faint: #9a8f7e;
+  --cinnabar: #9e3d33;
+  --line: #d9d0bb;
+  --serif: "Noto Serif SC", "Source Han Serif SC", "STZhongsong", "SimSun", serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: var(--serif);
+  color: var(--ink);
+  background:
+    radial-gradient(ellipse 900px 500px at 8% -4%, rgba(38, 34, 28, 0.05), transparent 60%),
+    radial-gradient(ellipse 800px 600px at 50% 110%, rgba(107, 97, 84, 0.06), transparent 60%),
+    var(--paper);
+  min-height: 100vh;
+  line-height: 1.7;
+}
+.sheet { width: min(1080px, 92vw); margin: 0 auto; padding: 56px 0 120px; }
+
+.head h1 { font-size: clamp(30px, 4.4vw, 44px); letter-spacing: 10px; font-weight: 700; }
+.head p { color: var(--ink-soft); margin-top: 12px; max-width: 62ch; }
+
+.incumbent {
+  margin-top: 30px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: rgba(251, 248, 240, 0.55);
+  padding: 14px 20px;
+  display: flex; align-items: center; gap: 16px;
+}
+.incumbent img { width: 44px; height: 44px; display: block; border-radius: 9px; box-shadow: 0 2px 8px rgba(70, 32, 24, 0.28); }
+.incumbent strong { letter-spacing: 2px; }
+.incumbent p { color: var(--ink-soft); font-size: 14px; }
+
+.cand {
+  margin-top: 46px;
+  border-top: 1px solid var(--line);
+  padding-top: 34px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 18px 44px;
+}
+.cand .stage { grid-row: 1 / span 2; display: flex; align-items: flex-end; gap: 26px; padding-right: 8px; }
+.cand img.big { display: block; filter: drop-shadow(0 10px 22px rgba(38, 34, 28, 0.22)); }
+.cand img.mid { display: block; opacity: 0.95; margin-bottom: 4px; }
+.cand h2 { font-size: 24px; letter-spacing: 5px; font-weight: 700; }
+.cand h2 em { font-style: normal; color: #A63E2E; margin-right: 10px; }
+.cand .why { color: var(--ink-soft); max-width: 58ch; margin-top: 8px; font-size: 15px; }
+
+.pick-btn {
+  font-family: var(--serif);
+  margin-top: 16px;
+  background: transparent;
+  border: 1.5px solid var(--line);
+  color: var(--ink-soft);
+  padding: 7px 22px;
+  border-radius: 0;
+  cursor: pointer;
+  letter-spacing: 3px;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+.pick-btn:hover { border-color: #A63E2E; color: #A63E2E; }
+.cand.chosen .pick-btn { background: #A63E2E; border-color: #A63E2E; color: #F4EFE3; }
+.cand.chosen .pick-btn:hover { background: #8C3326; color: #F4EFE3; }
+.cand.chosen h2::after { content: "✓"; color: #A63E2E; margin-left: 12px; font-size: 20px; }
+
+.strip {
+  grid-column: 1 / -1;
+  margin-top: 26px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 14px;
+}
+.cell {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 0;
+  padding: 12px 18px;
+  display: flex; flex-direction: column; justify-content: space-between; gap: 10px;
+  min-width: 150px;
+}
+.cell .label { font-size: 12px; color: var(--ink-faint); letter-spacing: 2px; }
+.cell .row { display: flex; align-items: center; gap: 14px; min-height: 52px; }
+.cell.dark { background: #23272e; border-color: #23272e; }
+.cell.dark .label { color: #9aa2ad; }
+
+.tabmock { display: flex; align-items: flex-end; gap: 0; height: 40px; overflow: hidden; }
+.tabmock .tab {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--paper-deep);
+  border: 1px solid var(--line); border-bottom: none;
+  border-radius: 0;
+  padding: 6px 14px 7px;
+  font-size: 11.5px; color: var(--ink-soft);
+  white-space: nowrap;
+}
+.tabmock .tab.active { background: var(--card); color: var(--ink); position: relative; z-index: 1; }
+.tabmock .tab img { width: 16px; height: 16px; display: block; }
+.tabmock .underbar { align-self: stretch; flex: 1; background: var(--paper-deep); border-bottom: 1px solid var(--line); margin-left: -1px; }
+
+.pair { display: grid; grid-template-columns: 1fr 1fr; gap: 0 54px; }
+.pair .cand { margin-top: 42px; grid-template-columns: 1fr; }
+.pair .cand .stage { grid-row: auto; padding: 6px 0 2px; }
+
+.pickbar {
+  position: fixed; left: 0; right: 0; bottom: 0;
+  background: rgba(35, 34, 28, 0.96);
+  color: #e8e4da;
+  backdrop-filter: blur(6px);
+  padding: 13px 5vw;
+  font-size: 14px; letter-spacing: 1px;
+  display: flex; align-items: center; justify-content: space-between; gap: 20px;
+}
+.pickbar strong { color: #e8b7a4; letter-spacing: 2px; }
+.pickbar .hint { color: #9aa2ad; font-size: 12.5px; }
+
+@media (max-width: 780px) {
+  .cand { grid-template-columns: 1fr; }
+  .cand .stage { grid-row: auto; }
+  .pair { grid-template-columns: 1fr; }
+  .head h1 { letter-spacing: 5px; }
+}
+</style>
+</head>
+<body>
+<main class="sheet">
+
+  <header class="head">
+    <h1>物色集 · 图标备选</h1>
+    <p>第三轮：去尽圆润，只取方直锐角——直角册页底、剪影锐角、界画直线。庚取檐角挑月，辛取直竿撇叶的墨竹，壬取锐角帆影的孤舟。每枚附标签页、顶栏与深浅底实况。</p>
+  </header>
+
+  <section class="incumbent">
+    <img src="favicon.svg" alt="现行图标：线装书印">
+    <p><strong>现行方案 · 线装书印</strong>　留作对照，不在候选之列。</p>
+  </section>
+
+  <article class="cand lead" id="cand-eave">
+    <div class="stage">
+      <img class="big" src="icons/night-eave.svg" width="176" height="176" alt="庚 夜檐月 大样">
+      <img class="mid" src="icons/night-eave.svg" width="104" height="104" alt="庚 夜檐月 中样">
+    </div>
+    <div class="meta">
+      <h2><em>庚</em>夜檐月</h2>
+      <p class="why">墨底夜色，飞檐自右上斜出，檐角一挑，挑起一轮满月；檐下风铃一点朱砂。楼台檐角是古典诗词最常驻足的望月之地。</p>
+      <button class="pick-btn" type="button" data-pick="夜檐月（icons/night-eave.svg）">选此方案</button>
+    </div>
+    <div class="strip">
+      <div class="cell" style="flex:1.4">
+        <span class="label">浏览器标签页</span>
+        <div class="tabmock">
+          <div class="tab"><img src="icons/night-eave.svg" alt=""><span>物色集 · 意象百科</span></div>
+          <div class="tab"><span>意象网</span></div>
+          <div class="underbar"></div>
+        </div>
+      </div>
+      <div class="cell">
+        <span class="label">顶栏 / 书签</span>
+        <div class="row">
+          <img src="icons/night-eave.svg" width="48" height="48" alt="48px">
+          <img src="icons/night-eave.svg" width="32" height="32" alt="32px">
+          <img src="icons/night-eave.svg" width="24" height="24" alt="24px">
+          <img src="icons/night-eave.svg" width="16" height="16" alt="16px">
+        </div>
+      </div>
+      <div class="cell dark">
+        <span class="label">深底（暗色模式）</span>
+        <div class="row">
+          <img src="icons/night-eave.svg" width="48" height="48" alt="深底48px">
+          <img src="icons/night-eave.svg" width="24" height="24" alt="深底24px">
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <div class="pair">
+
+    <article class="cand" id="cand-bamboo">
+      <div class="stage">
+        <img class="big" src="icons/ink-bamboo.svg" width="132" height="132" alt="辛 墨竹 大样">
+        <img class="mid" src="icons/ink-bamboo.svg" width="72" height="72" alt="辛 墨竹 中样">
+      </div>
+      <div class="meta">
+        <h2><em>辛</em>墨竹</h2>
+        <p class="why">绢底册页，两竿直竹，节节顿断；撇叶如刀，浓淡两色；角落一方直角朱印。「竹」正是集内草木意象，直竿锐叶，最见风骨。</p>
+        <button class="pick-btn" type="button" data-pick="墨竹（icons/ink-bamboo.svg）">选此方案</button>
+      </div>
+      <div class="strip">
+        <div class="cell" style="flex:1.4">
+          <span class="label">浏览器标签页</span>
+          <div class="tabmock">
+            <div class="tab active"><img src="icons/ink-bamboo.svg" alt=""><span>物色集 · 意象百科</span></div>
+            <div class="underbar"></div>
+          </div>
+        </div>
+        <div class="cell">
+          <span class="label">顶栏 / 书签</span>
+          <div class="row">
+            <img src="icons/ink-bamboo.svg" width="48" height="48" alt="48px">
+            <img src="icons/ink-bamboo.svg" width="24" height="24" alt="24px">
+            <img src="icons/ink-bamboo.svg" width="16" height="16" alt="16px">
+          </div>
+        </div>
+        <div class="cell dark">
+          <span class="label">深底</span>
+          <div class="row">
+            <img src="icons/ink-bamboo.svg" width="48" height="48" alt="深底48px">
+            <img src="icons/ink-bamboo.svg" width="24" height="24" alt="深底24px">
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="cand" id="cand-sail">
+      <div class="stage">
+        <img class="big" src="icons/lone-sail.svg" width="132" height="132" alt="壬 孤帆 大样">
+        <img class="mid" src="icons/lone-sail.svg" width="72" height="72" alt="壬 孤帆 中样">
+      </div>
+      <div class="meta">
+        <h2><em>壬</em>孤帆</h2>
+        <p class="why">天青底上，锐角白帆一张，墨色舟体一线，落日朱砂一点——「舟」正是集内器物意象：孤帆远影碧空尽。</p>
+        <button class="pick-btn" type="button" data-pick="孤帆（icons/lone-sail.svg）">选此方案</button>
+      </div>
+      <div class="strip">
+        <div class="cell" style="flex:1.4">
+          <span class="label">浏览器标签页</span>
+          <div class="tabmock">
+            <div class="tab active"><img src="icons/lone-sail.svg" alt=""><span>物色集 · 意象百科</span></div>
+            <div class="underbar"></div>
+          </div>
+        </div>
+        <div class="cell">
+          <span class="label">顶栏 / 书签</span>
+          <div class="row">
+            <img src="icons/lone-sail.svg" width="48" height="48" alt="48px">
+            <img src="icons/lone-sail.svg" width="24" height="24" alt="24px">
+            <img src="icons/lone-sail.svg" width="16" height="16" alt="16px">
+          </div>
+        </div>
+        <div class="cell dark">
+          <span class="label">深底</span>
+          <div class="row">
+            <img src="icons/lone-sail.svg" width="48" height="48" alt="深底48px">
+            <img src="icons/lone-sail.svg" width="24" height="24" alt="深底24px">
+          </div>
+        </div>
+      </div>
+    </article>
+
+  </div>
+
+</main>
+
+<footer class="pickbar">
+  <span id="pick-state">已选：<strong>（尚未选定）</strong></span>
+  <span class="hint">点上方按钮选定；定稿后我将替换 favicon.svg、apple-touch-icon.png 与 index.html 顶栏印章。</span>
+</footer>
+
+<script>
+document.querySelectorAll('.pick-btn').forEach(function (btn) {
+  btn.addEventListener('click', function () {
+    document.querySelectorAll('.cand').forEach(function (c) { c.classList.remove('chosen'); });
+    var cand = btn.closest('.cand');
+    cand.classList.add('chosen');
+    document.getElementById('pick-state').innerHTML = '已选：<strong>' + btn.dataset.pick + '</strong>';
+  });
+});
+</script>
+</body>
+</html>

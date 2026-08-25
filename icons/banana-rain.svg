@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="brSilk" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#F4EDDD"/>
+      <stop offset="1" stop-color="#EAE1CC"/>
+    </linearGradient>
+    <linearGradient id="brLeaf" x1="1" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3E5C48"/>
+      <stop offset="1" stop-color="#24382C"/>
+    </linearGradient>
+    <filter id="brInk" x="-8%" y="-8%" width="116%" height="116%">
+      <feTurbulence type="fractalNoise" baseFrequency=".8" numOctaves="1" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="1.5"/>
+    </filter>
+  </defs>
+
+  <rect width="64" height="64" fill="url(#brSilk)"/>
+
+  <!-- 一叶芭蕉，自画外扫入 -->
+  <g filter="url(#brInk)">
+    <path d="M70 -4 C52 4 30 20 14 42 C10 48 7 54 8 59 C22 52 44 36 57 22 C64 14 68 6 70 -4 Z" fill="url(#brLeaf)"/>
+    <!-- 叶缘撕裂 -->
+    <polygon points="18,47 25,41 23,51" fill="#EDE5D3"/>
+    <polygon points="32,35 39,28 37,40" fill="#EDE5D3"/>
+    <polygon points="46,24 53,17 50,30" fill="#EDE5D3"/>
+  </g>
+
+  <!-- 叶脉：主脉一笔，侧脉数笔 -->
+  <path d="M68 2 C52 12 33 27 15 47" stroke="#9DB49A" stroke-width="1.5" opacity=".9" fill="none"/>
+  <g stroke="#7E977C" stroke-width=".9" opacity=".55" fill="none">
+    <path d="M40 26 L34 36"/>
+    <path d="M50 17 L43 29"/>
+    <path d="M29 37 L23 45"/>
+  </g>
+
+  <!-- 雨脚斜织 -->
+  <g stroke="#8FA3A0" stroke-width="1.5" stroke-linecap="round" opacity=".85" fill="none">
+    <path d="M7 7 L4.5 15.4"/>
+    <path d="M17 4 L14.5 12.4"/>
+    <path d="M11 20 L8.5 28.4"/>
+    <path d="M21 15 L18.5 23.4"/>
+    <path d="M30 46 L27.5 54.4"/>
+    <path d="M20 51 L17.5 59.4"/>
+  </g>
+
+  <!-- 叶上溅雨与一滴金 -->
+  <circle cx="31" cy="39" r="1.2" fill="#EDF2EA" opacity=".95"/>
+  <path d="M37 34 q1.5 -2.5 .5 -4.7" stroke="#EDF2EA" stroke-width="1.1" fill="none" stroke-linecap="round"/>
+  <path d="M24 7.5 C24.9 9.7 25.3 10.8 25.3 11.7 A1.65 1.65 0 1 1 22.7 11.7 C22.7 10.8 23.1 9.7 24 7.5 Z" fill="#C99732"/>
+</svg>

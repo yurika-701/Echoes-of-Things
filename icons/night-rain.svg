@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <radialGradient id="nySky" cx="0.66" cy="0.3" r="0.95">
+      <stop offset="0" stop-color="#31506B"/>
+      <stop offset=".55" stop-color="#1D3247"/>
+      <stop offset="1" stop-color="#0F1B26"/>
+    </radialGradient>
+  </defs>
+  <!-- 夜空：月晕所在微明，四野沉黛 -->
+  <rect width="64" height="64" fill="url(#nySky)"/>
+  <circle cx="41" cy="21" r="13" fill="#EDE9DA" opacity=".07"/>
+  <circle cx="41" cy="21" r="9" fill="#EDE9DA"/>
+  <!-- 云掩月下缘 -->
+  <ellipse cx="45" cy="28.5" rx="15" ry="2.8" fill="#132230" opacity=".82"/>
+  <!-- 雨脚映月光而明 -->
+  <g stroke="#9FB6C9" stroke-width="2.6" stroke-linecap="round" fill="none">
+    <path d="M21.5 37 L18 47"/>
+    <path d="M30 34 L26.5 44"/>
+    <path d="M38.5 39 L35 49"/>
+  </g>
+</svg>

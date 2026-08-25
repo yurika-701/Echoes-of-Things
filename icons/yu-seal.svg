@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="sealYu" x1="2" y1="2" x2="62" y2="62" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#B0503F"/>
+      <stop offset=".55" stop-color="#9E3D33"/>
+      <stop offset="1" stop-color="#8A332B"/>
+    </linearGradient>
+  </defs>
+  <!-- 印地：朱砂 -->
+  <rect x="2" y="2" width="60" height="60" rx="14" fill="url(#sealYu)"/>
+  <!-- 雨脚三道，自右天斜落（雨脚如麻） -->
+  <g stroke="#F9F4E7" stroke-width="3.6" stroke-linecap="round" fill="none">
+    <path d="M43 11 L39.8 20"/>
+    <path d="M51.5 15.5 L48.3 24.5"/>
+    <path d="M46.5 25.5 L43.3 34.5"/>
+  </g>
+  <!-- 落于诗行：外物动，文辞生 -->
+  <g stroke="#F9F4E7" stroke-width="4.2" stroke-linecap="round" fill="none">
+    <path d="M13.5 41 H44"/>
+    <path d="M13.5 49 H35"/>
+  </g>
+</svg>

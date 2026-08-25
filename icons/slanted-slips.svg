@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- 纸底 -->
+  <rect width="64" height="64" fill="#F5EFE0"/>
+  <!-- 三片斜简，风中所掀 -->
+  <g transform="skewX(-18)">
+    <rect x="15" y="16" width="9.5" height="30" rx="0.8" fill="#344046"/>
+    <rect x="17.4" y="23" width="4.7" height="1.7" rx="0.8" fill="#F5EFE0"/>
+    <rect x="17.4" y="30" width="4.7" height="1.7" rx="0.8" fill="#F5EFE0"/>
+    <rect x="29.5" y="12.5" width="9.5" height="34" rx="0.8" fill="#A63B2E"/>
+    <rect x="44" y="18" width="9.5" height="27" rx="0.8" fill="#344046"/>
+    <rect x="46.4" y="25" width="4.7" height="1.7" rx="0.8" fill="#F5EFE0"/>
+  </g>
+  <!-- 韦绳一线贯之 -->
+  <line x1="8" y1="50" x2="56" y2="15" stroke="#B9873B" stroke-width="1.8"/>
+</svg>

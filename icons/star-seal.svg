@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="sealStar" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#B0503F"/>
+      <stop offset=".55" stop-color="#9E3D33"/>
+      <stop offset="1" stop-color="#8A332B"/>
+    </linearGradient>
+  </defs>
+  <!-- 印地：朱砂 -->
+  <rect x="2" y="2" width="60" height="60" rx="14" fill="url(#sealStar)"/>
+  <!-- 星络 -->
+  <g stroke="#F9F4E7" stroke-width="1.9" stroke-linecap="round">
+    <line x1="32" y1="31" x2="15" y2="15"/>
+    <line x1="32" y1="31" x2="46" y2="12"/>
+    <line x1="32" y1="31" x2="53" y2="33"/>
+    <line x1="32" y1="31" x2="41" y2="50"/>
+    <line x1="32" y1="31" x2="16" y2="45"/>
+    <path d="M15 15 L46 12" fill="none"/>
+    <path d="M16 45 L41 50" fill="none"/>
+  </g>
+  <!-- 从星 -->
+  <circle cx="15" cy="15" r="3" fill="#F9F4E7"/>
+  <circle cx="46" cy="12" r="2.4" fill="#F9F4E7"/>
+  <circle cx="53" cy="33" r="3.4" fill="#F9F4E7"/>
+  <circle cx="41" cy="50" r="2.8" fill="#F9F4E7"/>
+  <circle cx="16" cy="45" r="2.2" fill="#F9F4E7"/>
+  <!-- 枢星与光环 -->
+  <circle cx="32" cy="31" r="8.8" fill="none" stroke="#F9F4E7" stroke-width="1.6"/>
+  <circle cx="32" cy="31" r="5" fill="#F9F4E7"/>
+</svg>

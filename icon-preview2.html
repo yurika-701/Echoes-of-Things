@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>物色集 · 图标备选（第二轮）</title>
+<!--
+  图标备选预览页 · 第二轮：弃朱砂印世界，改从园林与古画取意。
+  丁 月洞窗（园林框景×青绿山水）／戊 墨梅（文人水墨×朱印点睛）／己 云月夜（绀青夜空×如意云纹）。
+  定稿后替换 favicon.svg、apple-touch-icon.png 与顶栏印章。
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper: #f4efe3;
+  --paper-deep: #ece5d3;
+  --card: #fbf8f0;
+  --ink: #2f2a24;
+  --ink-soft: #6b6154;
+  --ink-faint: #9a8f7e;
+  --cinnabar: #9e3d33;
+  --line: #d9d0bb;
+  --serif: "Noto Serif SC", "Source Han Serif SC", "STZhongsong", "SimSun", serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: var(--serif);
+  color: var(--ink);
+  background:
+    radial-gradient(ellipse 900px 500px at 8% -4%, rgba(51, 86, 110, 0.05), transparent 60%),
+    radial-gradient(ellipse 800px 600px at 50% 110%, rgba(107, 97, 84, 0.06), transparent 60%),
+    var(--paper);
+  min-height: 100vh;
+  line-height: 1.7;
+}
+.sheet { width: min(1080px, 92vw); margin: 0 auto; padding: 56px 0 120px; }
+
+.head h1 { font-size: clamp(30px, 4.4vw, 44px); letter-spacing: 10px; font-weight: 700; }
+.head p { color: var(--ink-soft); margin-top: 12px; max-width: 62ch; }
+
+.incumbent {
+  margin-top: 30px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: rgba(251, 248, 240, 0.55);
+  padding: 14px 20px;
+  display: flex; align-items: center; gap: 16px;
+}
+.incumbent img { width: 44px; height: 44px; display: block; border-radius: 9px; box-shadow: 0 2px 8px rgba(70, 32, 24, 0.28); }
+.incumbent strong { letter-spacing: 2px; }
+.incumbent p { color: var(--ink-soft); font-size: 14px; }
+
+.cand {
+  margin-top: 46px;
+  border-top: 1px solid var(--line);
+  padding-top: 34px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 18px 44px;
+}
+.cand .stage { grid-row: 1 / span 2; display: flex; align-items: flex-end; gap: 26px; padding-right: 8px; }
+.cand img.big { display: block; filter: drop-shadow(0 10px 22px rgba(47, 42, 36, 0.2)); }
+.cand img.mid { display: block; opacity: 0.95; margin-bottom: 4px; }
+.cand h2 { font-size: 24px; letter-spacing: 5px; font-weight: 700; }
+.cand h2 em { font-style: normal; color: #33566E; margin-right: 10px; }
+.cand .why { color: var(--ink-soft); max-width: 58ch; margin-top: 8px; font-size: 15px; }
+
+.pick-btn {
+  font-family: var(--serif);
+  margin-top: 16px;
+  background: transparent;
+  border: 1.5px solid var(--line);
+  color: var(--ink-soft);
+  padding: 7px 22px;
+  border-radius: 4px;
+  cursor: pointer;
+  letter-spacing: 3px;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+.pick-btn:hover { border-color: #33566E; color: #33566E; }
+.cand.chosen .pick-btn { background: #33566E; border-color: #33566E; color: #F4EFE3; }
+.cand.chosen .pick-btn:hover { background: #27445A; color: #F4EFE3; }
+.cand.chosen h2::after { content: "✓"; color: #33566E; margin-left: 12px; font-size: 20px; }
+
+.strip {
+  grid-column: 1 / -1;
+  margin-top: 26px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 14px;
+}
+.cell {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px 18px;
+  display: flex; flex-direction: column; justify-content: space-between; gap: 10px;
+  min-width: 150px;
+}
+.cell .label { font-size: 12px; color: var(--ink-faint); letter-spacing: 2px; }
+.cell .row { display: flex; align-items: center; gap: 14px; min-height: 52px; }
+.cell.dark { background: #23272e; border-color: #23272e; }
+.cell.dark .label { color: #9aa2ad; }
+
+.tabmock { display: flex; align-items: flex-end; gap: 0; height: 40px; overflow: hidden; }
+.tabmock .tab {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--paper-deep);
+  border: 1px solid var(--line); border-bottom: none;
+  border-radius: 9px 9px 0 0;
+  padding: 6px 14px 7px;
+  font-size: 11.5px; color: var(--ink-soft);
+  white-space: nowrap;
+}
+.tabmock .tab.active { background: var(--card); color: var(--ink); position: relative; z-index: 1; }
+.tabmock .tab img { width: 16px; height: 16px; display: block; }
+.tabmock .underbar { align-self: stretch; flex: 1; background: var(--paper-deep); border-bottom: 1px solid var(--line); margin-left: -1px; }
+
+.pair { display: grid; grid-template-columns: 1fr 1fr; gap: 0 54px; }
+.pair .cand { margin-top: 42px; grid-template-columns: 1fr; }
+.pair .cand .stage { grid-row: auto; padding: 6px 0 2px; }
+
+.pickbar {
+  position: fixed; left: 0; right: 0; bottom: 0;
+  background: rgba(35, 39, 46, 0.96);
+  color: #e8e4da;
+  backdrop-filter: blur(6px);
+  padding: 13px 5vw;
+  font-size: 14px; letter-spacing: 1px;
+  display: flex; align-items: center; justify-content: space-between; gap: 20px;
+}
+.pickbar strong { color: #a9c3d6; letter-spacing: 2px; }
+.pickbar .hint { color: #9aa2ad; font-size: 12.5px; }
+
+@media (max-width: 780px) {
+  .cand { grid-template-columns: 1fr; }
+  .cand .stage { grid-row: auto; }
+  .pair { grid-template-columns: 1fr; }
+  .head h1 { letter-spacing: 5px; }
+}
+</style>
+</head>
+<body>
+<main class="sheet">
+
+  <header class="head">
+    <h1>物色集 · 图标备选</h1>
+    <p>第二轮：弃印章旧路，改向园林与古画借意。丁取园林月洞窗框景，配千里江山图的石青石绿；戊取文人水墨墨梅，以朱砂落印点睛；己取绀青夜色、如意云掩月。每枚附标签页、顶栏与深浅底实况。</p>
+  </header>
+
+  <section class="incumbent">
+    <img src="favicon.svg" alt="现行图标：线装书印">
+    <p><strong>现行方案 · 线装书印</strong>　留作对照，不在候选之列。</p>
+  </section>
+
+  <article class="cand lead" id="cand-moongate">
+    <div class="stage">
+      <img class="big" src="icons/moongate.svg" width="176" height="176" alt="丁 月洞窗 大样">
+      <img class="mid" src="icons/moongate.svg" width="104" height="104" alt="丁 月洞窗 中样">
+    </div>
+    <div class="meta">
+      <h2><em>丁</em>月洞窗</h2>
+      <p class="why">园林「月洞窗」遗意——一窗框一景，虚实相生。窗中是千里江山图的小景：石青远峰、石绿近丘、赭石小舟。开窗即见意象，正是「物色」二字。</p>
+      <button class="pick-btn" type="button" data-pick="月洞窗（icons/moongate.svg）">选此方案</button>
+    </div>
+    <div class="strip">
+      <div class="cell" style="flex:1.4">
+        <span class="label">浏览器标签页</span>
+        <div class="tabmock">
+          <div class="tab"><img src="icons/moongate.svg" alt=""><span>物色集 · 意象百科</span></div>
+          <div class="tab"><span>意象网</span></div>
+          <div class="underbar"></div>
+        </div>
+      </div>
+      <div class="cell">
+        <span class="label">顶栏 / 书签</span>
+        <div class="row">
+          <img src="icons/moongate.svg" width="48" height="48" alt="48px">
+          <img src="icons/moongate.svg" width="32" height="32" alt="32px">
+          <img src="icons/moongate.svg" width="24" height="24" alt="24px">
+          <img src="icons/moongate.svg" width="16" height="16" alt="16px">
+        </div>
+      </div>
+      <div class="cell dark">
+        <span class="label">深底（暗色模式）</span>
+        <div class="row">
+          <img src="icons/moongate.svg" width="48" height="48" alt="深底48px">
+          <img src="icons/moongate.svg" width="24" height="24" alt="深底24px">
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <div class="pair">
+
+    <article class="cand" id="cand-inkplum">
+      <div class="stage">
+        <img class="big" src="icons/inkplum.svg" width="132" height="132" alt="戊 墨梅 大样">
+        <img class="mid" src="icons/inkplum.svg" width="72" height="72" alt="戊 墨梅 中样">
+      </div>
+      <div class="meta">
+        <h2><em>戊</em>墨梅</h2>
+        <p class="why">文人水墨小帧：老枝斜出，朱梅一点，角落落一方小印——「梅」正是集内草木意象。墨分五色，唯以一点朱砂点睛。</p>
+        <button class="pick-btn" type="button" data-pick="墨梅（icons/inkplum.svg）">选此方案</button>
+      </div>
+      <div class="strip">
+        <div class="cell" style="flex:1.4">
+          <span class="label">浏览器标签页</span>
+          <div class="tabmock">
+            <div class="tab active"><img src="icons/inkplum.svg" alt=""><span>物色集 · 意象百科</span></div>
+            <div class="underbar"></div>
+          </div>
+        </div>
+        <div class="cell">
+          <span class="label">顶栏 / 书签</span>
+          <div class="row">
+            <img src="icons/inkplum.svg" width="48" height="48" alt="48px">
+            <img src="icons/inkplum.svg" width="24" height="24" alt="24px">
+            <img src="icons/inkplum.svg" width="16" height="16" alt="16px">
+          </div>
+        </div>
+        <div class="cell dark">
+          <span class="label">深底</span>
+          <div class="row">
+            <img src="icons/inkplum.svg" width="48" height="48" alt="深底48px">
+            <img src="icons/inkplum.svg" width="24" height="24" alt="深底24px">
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="cand" id="cand-cloudmoon">
+      <div class="stage">
+        <img class="big" src="icons/cloudmoon.svg" width="132" height="132" alt="己 云月夜 大样">
+        <img class="mid" src="icons/cloudmoon.svg" width="72" height="72" alt="己 云月夜 中样">
+      </div>
+      <div class="meta">
+        <h2><em>己</em>云月夜</h2>
+        <p class="why">绀青夜空，新月半掩于如意云后——「月」「云」皆是集内天象意象。夜色四合而月自明，恰似典籍尘封而意象长新。</p>
+        <button class="pick-btn" type="button" data-pick="云月夜（icons/cloudmoon.svg）">选此方案</button>
+      </div>
+      <div class="strip">
+        <div class="cell" style="flex:1.4">
+          <span class="label">浏览器标签页</span>
+          <div class="tabmock">
+            <div class="tab active"><img src="icons/cloudmoon.svg" alt=""><span>物色集 · 意象百科</span></div>
+            <div class="underbar"></div>
+          </div>
+        </div>
+        <div class="cell">
+          <span class="label">顶栏 / 书签</span>
+          <div class="row">
+            <img src="icons/cloudmoon.svg" width="48" height="48" alt="48px">
+            <img src="icons/cloudmoon.svg" width="24" height="24" alt="24px">
+            <img src="icons/cloudmoon.svg" width="16" height="16" alt="16px">
+          </div>
+        </div>
+        <div class="cell dark">
+          <span class="label">深底</span>
+          <div class="row">
+            <img src="icons/cloudmoon.svg" width="48" height="48" alt="深底48px">
+            <img src="icons/cloudmoon.svg" width="24" height="24" alt="深底24px">
+          </div>
+        </div>
+      </div>
+    </article>
+
+  </div>
+
+</main>
+
+<footer class="pickbar">
+  <span id="pick-state">已选：<strong>（尚未选定）</strong></span>
+  <span class="hint">点上方按钮选定；定稿后我将替换 favicon.svg、apple-touch-icon.png 与 index.html 顶栏印章。</span>
+</footer>
+
+<script>
+document.querySelectorAll('.pick-btn').forEach(function (btn) {
+  btn.addEventListener('click', function () {
+    document.querySelectorAll('.cand').forEach(function (c) { c.classList.remove('chosen'); });
+    var cand = btn.closest('.cand');
+    cand.classList.add('chosen');
+    document.getElementById('pick-state').innerHTML = '已选：<strong>' + btn.dataset.pick + '</strong>';
+  });
+});
+</script>
+</body>
+</html>
