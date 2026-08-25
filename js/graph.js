@@ -77,13 +77,14 @@ const GRAPH = (() => {
     book: ["#8A6FA0", "#9D86B2", "#755D8C", "#B09DC4"]
   };
   const PALETTE = {
-    "天象": "#55779E",
-    "草木": "#567B57",
-    "地理": "#8B6C4A",
-    "动物": "#B65C44",
-    "禽鸟": "#8A6FA0",
-    "器物": "#4E7F87",
-    "建筑": "#907062"
+    "天象": "#7E97B8",
+    "草木": "#7C9E7E",
+    "地理": "#A98A67",
+    "动物": "#CE8A72",
+    "禽鸟": "#A58CC2",
+    "器物": "#74A3AC",
+    "建筑": "#B49485",
+    "人物": "#C491A8"
   };
 
   function esc(s) {
@@ -347,10 +348,10 @@ const GRAPH = (() => {
       const deg = degree[name] || 0;
       nodes.push({
         id: "i:" + name, name,
-        symbolSize: 34 + deg * 5,
+        symbolSize: Math.min(46 + deg * 6, 96),
         category: Math.max(cats.indexOf(d.category), 0),
-        itemStyle: { borderColor: "#fbf8f0", borderWidth: 2 },
-        label: { color: INK, fontWeight: 600 },
+        itemStyle: { borderColor: "#fbf8f0", borderWidth: 2.5 },
+        label: { color: INK, fontWeight: 600, fontSize: 15 },
         tooltip: { content: esc(d.summary) },
         isImagery: true
       });
@@ -360,10 +361,10 @@ const GRAPH = (() => {
       EMOTION_HUBS.forEach((imgs, emo) => {
         if (imgs.length < 2) return; /* 只显示被两个以上意象共享的情感枢纽 */
         nodes.push({
-          id: "e:" + emo, name: emo, symbolSize: 26,
+          id: "e:" + emo, name: emo, symbolSize: 36,
           category: -1, isHub: true,
-          itemStyle: { color: C.hubFill, borderColor: C.hubLine, borderWidth: 1.5 },
-          label: { fontSize: 12, color: C.hubText },
+          itemStyle: { color: C.hubFill, borderColor: C.hubLine, borderWidth: 2 },
+          label: { fontSize: 14, color: C.hubText },
           tooltip: { content: "共享此情的意象：" + imgs.map(esc).join("、") }
         });
         imgs.forEach(n => links.push({
@@ -380,10 +381,10 @@ const GRAPH = (() => {
         (d.books || []).forEach((b, i) => {
           const bid = "b:" + name + ":" + i;
           nodes.push({
-            id: bid, name: "《" + b.title + "》", symbolSize: 14,
+            id: bid, name: "《" + b.title + "》", symbolSize: 18,
             category: -1, isBook: true,
-            itemStyle: { color: "#8A6FA0", borderColor: "#fbf8f0", borderWidth: 1.5 },
-            label: { fontSize: 10, color: "#6b5a80" },
+            itemStyle: { color: "#A98CC2", borderColor: "#fbf8f0", borderWidth: 1.5 },
+            label: { fontSize: 11, color: "#6b5a80" },
             tooltip: { content: esc(b.title) + "（" + esc(b.author) + "）<br>" + esc(b.emotion) }
           });
           links.push({
@@ -426,8 +427,8 @@ const GRAPH = (() => {
       series: [{
         type: "graph", layout: "force", roam: true, draggable: true,
         categories: cats.map(c => ({ name: c, itemStyle: { color: PALETTE[c] || "#8A8375" } })),
-        force: { repulsion: 380, edgeLength: [60, 150], gravity: 0.09, friction: 0.2 },
-        label: { show: true, color: INK, fontSize: 15 },
+        force: { repulsion: 480, edgeLength: [70, 160], gravity: 0.09, friction: 0.2 },
+        label: { show: true, color: INK, fontSize: 16 },
         edgeSymbol: ["none", "none"],
         emphasis: { focus: "adjacency", lineStyle: { width: 3 } },
         data: nodes,
