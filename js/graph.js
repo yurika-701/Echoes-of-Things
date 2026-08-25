@@ -373,6 +373,27 @@ const GRAPH = (() => {
       });
     }
 
+    /* 名著节点（可选）：有 books 的意象旁挂书名节点 */
+    if (opts.showBooks) {
+      (WUSE.curatedNames || IMAGERY_NAMES).forEach(name => {
+        const d = WUSE.imagery[name];
+        (d.books || []).forEach((b, i) => {
+          const bid = "b:" + name + ":" + i;
+          nodes.push({
+            id: bid, name: "《" + b.title + "》", symbolSize: 14,
+            category: -1, isBook: true,
+            itemStyle: { color: "#8A6FA0", borderColor: "#fbf8f0", borderWidth: 1.5 },
+            label: { fontSize: 10, color: "#6b5a80" },
+            tooltip: { content: esc(b.title) + "（" + esc(b.author) + "）<br>" + esc(b.emotion) }
+          });
+          links.push({
+            source: "i:" + name, target: bid,
+            lineStyle: { color: "#9D86B2", width: 1, type: "dotted", opacity: 0.65 }
+          });
+        });
+      });
+    }
+
     WUSE.imageryLinks.forEach(l => {
       if (!linkTypes[l.type]) return;
       links.push({

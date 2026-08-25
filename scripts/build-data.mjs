@@ -321,6 +321,24 @@ function scanWord(kws) {
 
 const entries = {};
 let done = 0;
+
+/* 变体组：同一意象的不同写法互相链接（variants 字段） */
+const VARIANT_GROUPS = [
+  ["明月", "月明", "月落", "新月", "秋月", "山月", "残月"],
+  ["落日", "日落", "斜日", "日暮", "春日"],
+  ["落花", "花落", "花飞", "花枝", "花香"],
+  ["春风", "秋风", "清风", "西风", "风露"],
+  ["春水", "秋水", "江流", "江海", "碧水", "清泉", "寒潭"],
+  ["深山", "故山", "寒山", "春山", "山川"],
+  ["烟雨", "暮雨", "风雨"],
+  ["孤舟", "扁舟"],
+  ["长安", "故都"]
+];
+function variantsOf(name) {
+  const g = VARIANT_GROUPS.find(g => g.includes(name));
+  return g ? g.filter(n => n !== name) : [];
+}
+
 for (const h of headwords) {
   const aliasList = (h.aliases || []).map(a => a.alias);
   const st = scanWord([h.name, ...aliasList]);
@@ -357,6 +375,7 @@ for (const h of headwords) {
     authorCount: st.authors.size,
     dynasties: st.dynasties,
     summary: "", // 维基或兜底，稍后填
+    variants: variantsOf(h.name).filter(v => v !== h.name),
     aliases: (h.aliases || []).map(a => ({
       alias: a.alias, kind: a.kind || "雅称",
       note: a.note || "",

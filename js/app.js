@@ -365,6 +365,17 @@
             ? `<a class="tag" href="#/i/${encodeURIComponent(c.name)}">${esc(c.name)}<span class="muted">×${c.hits}</span></a>`
             : `<a class="tag" href="#/k/${encodeURIComponent(c.name)}">${esc(c.name)}<span class="muted">×${c.hits}</span></a>`).join("")}
         </div>
+      </section>` : ""}
+
+      ${(d.variants || []).length ? `
+      <section class="detail-section" id="sec-variants">
+        <h2>变 · 变体与近义</h2>
+        <p class="section-sub">同一意象的其他写法——语料中各自独立成词，点击互查。</p>
+        <div class="tag-cloud" style="justify-content:flex-start">
+          ${d.variants.map(v => WUSE.imagery[v]
+            ? `<a class="tag" href="#/i/${encodeURIComponent(v)}">${esc(v)}</a>`
+            : `<a class="tag" href="#/k/${encodeURIComponent(v)}">${esc(v)}</a>`).join("")}
+        </div>
       </section>` : ""}`;
   }
 
@@ -551,6 +562,7 @@
           <label><input type="checkbox" id="net-t-co" checked>共现边</label>
           <label><input type="checkbox" id="net-t-de">引申边</label>
           <label><input type="checkbox" id="net-t-du">对写边</label>
+          <label><input type="checkbox" id="net-books">显示名著节点</label>
         </div>
         <div class="chart-box tall" id="net-chart"></div>
         <p class="net-hint muted">拖拽可移动节点，滚轮缩放，悬停查看边的文献证据。</p>
@@ -559,6 +571,7 @@
     const draw = () => {
       GRAPH.renderGlobal($("#net-chart"), {
         showEmotions: $("#net-emo").checked,
+        showBooks: $("#net-books").checked,
         linkTypes: {
           "共现": $("#net-t-co").checked,
           "引申": $("#net-t-de").checked,
@@ -568,7 +581,7 @@
         $("#net-chart").innerHTML = '<p class="empty-note">图表加载失败：' + esc(e.message) + '</p>';
       });
     };
-    ["net-emo", "net-t-co", "net-t-de", "net-t-du"].forEach(id => {
+    ["net-emo", "net-t-co", "net-t-de", "net-t-du", "net-books"].forEach(id => {
       $("#" + id).addEventListener("change", draw);
     });
     draw();
@@ -576,6 +589,8 @@
 
   /* ---------- 关于 ---------- */
   function renderAbout() {
+    const curatedCount = (WUSE.curatedNames || []).length;
+    const autoCount = IMAGERY_NAMES.filter(n => WUSE.imagery[n].tier === "auto").length;
     view.innerHTML = `
       <div class="about-page">
         <h2>物色集 · 命名</h2>
@@ -584,20 +599,41 @@
 
         <h2>方法：生成链，而非词条罗列</h2>
         <p>《文心雕龙·物色》又云：「物色之动，心亦摇焉。」外物触发情感，情感又反过来为外物命名、
-        组合出新的意境——一层层累积，才有「雨」演化出的「巴山夜雨」「江湖夜雨」。因此本站的每个意象分为四层：</p>
+        组合出新的意境——一层层累积，才有「雨」演化出的「巴山夜雨」「江湖夜雨」。因此本站每个精选意象分为五层：</p>
         <ul>
           <li><b>名</b>（词汇层）：同一事物的异名——霖、银竹是雨的「名字」；</li>
           <li><b>情</b>（情感层）：意象承载的情感——离愁、羁旅、乱世、喜雨；</li>
           <li><b>境</b>（复合意象层）：意象与情境组合生成的新意境——「巴山夜雨 = 雨+夜+山 → 思归」是意境而非名字；</li>
-          <li><b>译</b>（跨媒介层）：电影对意象的转译，注明情绪功能与古典溯源（承接 / 化用 / 反用）。</li>
+          <li><b>译</b>（跨媒介层）：电影与经典名著对意象的转译，注明情绪功能与古典溯源（承接 / 化用 / 反用）；</li>
+          <li><b>流</b>（历代流变层）：意象含义随时代的迁移，先秦至近代逐代例证。</li>
         </ul>
 
-        <div class="noai"><b>内容声明</b>：本站内置词条由编者参考公开文献整理，逐条标注原始出处，引文均为真实文献原句（整理过程借助了工具辅助，非纯手工誊录）；联网例证为 chinese-poetry 公开诗词库原文照录；百科摘录来自维基百科。每条内容均有来源徽标可溯源，引文若有讹误欢迎指正。</div>
+        <h2>数据分层</h2>
+        <ul>
+          <li><b>完整精选</b>（${curatedCount - 68} 个）：五层满配，逐条标注原始文献；</li>
+          <li><b>标准精选</b>（68 个）：五层标准配置（2 别称 + 2 情感 + 2 复合 + 流变 + 电影名著），引文取高置信名句；</li>
+          <li><b>语料收录</b>（${autoCount} 个）：程序对公开诗词库做词频 / 共现统计自动生成，例句原文照录——持续升级为精选层。</li>
+        </ul>
+
+        <div class="noai"><b>内容声明</b>：本站词条由编者参考公开文献整理，逐条标注原始出处，引文均为真实文献原句（整理过程借助了工具辅助，非纯手工誊录）；标准精选与语料收录层的例证均为语料原文照录与词频统计结果，<b>无 AI 生成内容</b>；百科摘录来自维基百科。每条内容均有来源徽标可溯源，引文若有讹误欢迎指正。</div>
+
+        <h2>引用典籍（经史子集）</h2>
+        <p><b>经部</b>：《诗经》《论语》《孟子》《礼记》（含《月令》）《周易》《左传》《尔雅》《孔子家语》</p>
+        <p><b>史部</b>：《史记》《汉书》《后汉书》《三国志》《晋书》《新五代史》《新唐书》《战国策》《资治通鉴》《洛阳伽蓝记》《水经注》《三辅黄图》</p>
+        <p><b>子部</b>：《庄子》《老子》《淮南子》《世说新语》《搜神记》《颜氏家训》《梦溪笔谈》《东坡志林》《云仙杂记》《相鹤经》《古今注》《开元天宝遗事》《本事诗》《墨庄漫录》《吹剑录》《尧山堂外纪》</p>
+        <p><b>集部（诗文词曲）</b>：《楚辞》《文选》《古诗十九首》《玉台新咏》——屈原、曹操、曹丕、陶渊明、谢灵运、谢朓、王维、李白、杜甫、白居易、韩愈、柳宗元、刘禹锡、李商隐、杜牧、韦应物、孟浩然、岑参、高适、王昌龄、李贺、李煜、柳永、晏殊、晏几道、欧阳修、苏轼、黄庭坚、秦观、周邦彦、李清照、陆游、辛弃疾、姜夔、文天祥、马致远、张养浩、纳兰性德……</p>
+        <p><b>戏曲小说</b>：《西厢记》《牡丹亭》《琵琶记》《西厢记诸宫调》《三国演义》《水浒传》《西游记》《红楼梦》《儒林外史》《聊斋志异》《镜花缘》</p>
+        <p><b>现当代</b>：鲁迅《野草》《长明灯》、老舍《茶馆》《月牙儿》《四世同堂》、沈从文《边城》《湘行散记》、萧红《呼兰河传》、巴金《春》、曹禺《雷雨》、林海音《城南旧事》、余华《活着》、路遥《平凡的世界》、曹文轩《草房子》、马伯庸《长安十二时辰》、姜戎《狼图腾》、傅雷《傅雷家书》</p>
+        <p><b>外国文学</b>：马尔克斯《百年孤独》、海明威《老人与海》《太阳照常升起》、毛姆《月亮与六便士》、塞万提斯《堂吉诃德》、雨果《巴黎圣母院》、卡罗尔《爱丽丝镜中奇遇》、泰戈尔《飞鸟集》《新月集》、肖洛霍夫《静静的顿河》、雷马克《西线无战事》、汉芙《查令十字街84号》、野坂昭如《萤火虫之墓》、井上靖《敦煌》、凯鲁亚克《达摩流浪者》、安徒生《影子》、博尔赫斯《小径分岔的花园》</p>
+
+        <h2>引用影视（跨媒介层）</h2>
+        <p>花样年华 · 雨中曲 · 七武士 · 大话西游 · 月光男孩 · 长安三万里 · 卧虎藏龙 · 妖猫传 · 梅兰芳 · 英雄 · 满城尽带黄金甲 · 哪吒之魔童降世 · 菊次郎的夏天 · 路边野餐 · 起风了 · 风吹麦浪 · 白日焰火 · 东邪西毒 · 庐山恋 · 芳华 · 小城之春 · 情书 · 海角七号 · 北京遇上西雅图之不二情书 · 妖猫传 · 茶馆 · 倩女幽魂 · 海上钢琴师 · 无问西东 · 山河故人 · 长安十二时辰 · 七剑 · 渔光曲 · 金陵十三钗 · 活着 · 日落大道 · 爱在日落黄昏时 · 青蛇 · 月满轩尼诗 · 月牙儿 · 草房子 · 末代皇帝 · 狼图腾 · 卧虎藏龙 · 长城 · 大鱼 · 死亡诗社 · 秋天的童话 · 大鱼海棠 · 芙蓉镇 · 秋菊打官司 · 大红灯笼高高挂 · 重庆森林 · 影 · 风月 · 十面埋伏 · 唐伯虎点秋香 · 墨攻 · 流浪猫鲍勃 · 萤火虫之墓 · 山楂树之恋 · 苏州河 · 海街日记 · 花样年华 · 巫山云雨 · 小森林 · 入殓师 · 千与千寻 · 幽灵公主 · 岁月的童话 · 山水情 · 梁祝 · 赤壁 · 敦煌 · 新龙门客栈 · 双旗镇刀客 · 龙门飞甲 · 集结号 · 西风烈 · 死亡诗社</p>
 
         <h2>数据来源</h2>
         <ul>
-          <li>内置精选库：人工整理（本仓库 js/data.js），出处均标注原始文献；</li>
-          <li><a href="https://github.com/chinese-poetry/chinese-poetry" target="_blank" rel="noopener">chinese-poetry</a>（MIT 协议）：诗经、楚辞、论语、曹操诗集、古文观止、唐诗三百首、全唐诗、全宋词，经 raw.githubusercontent.com 及镜像直连；</li>
+          <li>内置精选库：编者整理（本仓库 js/data.js），出处均标注原始文献；</li>
+          <li>语料统计收录层：构建脚本 scripts/build-data.mjs 对下述语料做词频 / 共现统计生成（js/data-auto.js，自动生成勿手改）；</li>
+          <li><a href="https://github.com/chinese-poetry/chinese-poetry" target="_blank" rel="noopener">chinese-poetry</a>（MIT 协议）：诗经、楚辞、论语、曹操诗集、古文观止、唐诗三百首、全唐诗（58 卷）、全宋词（22 卷），经 raw.githubusercontent.com 及镜像直连；</li>
           <li><a href="https://zh.wikipedia.org" target="_blank" rel="noopener">维基百科</a> REST API（origin=*）。</li>
         </ul>
 
