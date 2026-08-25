@@ -153,7 +153,9 @@
         <h1>${esc(name)}</h1>
         <p class="cat">〔${esc(d.category)}〕 ${BADGE.curated}</p>
         <p class="summary">${esc(d.summary)}</p>
+        <button class="ghost-btn share-btn" id="btn-share" type="button">生成分享图</button>
       </div>
+      <div class="sec-nav" id="sec-nav"></div>
 
       <section class="detail-section" id="sec-alias">
         <h2>名 · 异名同实</h2>
@@ -285,6 +287,8 @@
         <div class="chart-box" id="chain-chart"></div>
       </section>`;
 
+    wireSecNav();
+    wireShare(d);
     wireOnlineSearch(name);
     wireWiki(d.wiki || d.name);
     GRAPH.renderChain($("#chain-chart"), name).catch(e => {
@@ -324,7 +328,9 @@
         <p class="cat">〔${esc(d.category)}〕 ${BADGE.auto}</p>
         <p class="summary">${esc(d.summary)}</p>
         <p class="muted">语料统计（含别称）：出现 <b>${d.freq}</b> 次 · ${d.authorCount} 位作者${dynText ? `　｜　朝代分布：${dynText}` : ""}${kwBreakdown}</p>
+        <button class="ghost-btn share-btn" id="btn-share" type="button">生成分享图</button>
       </div>
+      <div class="sec-nav" id="sec-nav"></div>
 
       ${aliasCard}
 
@@ -377,6 +383,104 @@
             : `<a class="tag" href="#/k/${encodeURIComponent(v)}">${esc(v)}</a>`).join("")}
         </div>
       </section>` : ""}`;
+
+    wireSecNav();
+    wireShare(d);
+  }
+
+  /* ---------- 详情页公共：锚点目录 + 分享卡片 ---------- */
+  function wireSecNav() {
+    const nav = $("#sec-nav");
+    if (!nav) return;
+    const secs = [...view.querySelectorAll(".detail-section[id]")];
+    nav.innerHTML = secs.map(s => {
+      const h = s.querySelector("h2");
+      const label = h ? h.textContent.split("·")[0].trim().slice(0, 4) : s.id;
+      return `<button type="button" data-t="${s.id}">${esc(label)}</button>`;
+    }).join("");
+    nav.addEventListener("click", e => {
+      const b = e.target.closest("button[data-t]");
+      if (!b) return;
+      const el = document.getElementById(b.dataset.t);
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  }
+
+  function wireShare(d) {
+    const btn = $("#btn-share");
+    if (!btn) return;
+    btn.addEventListener("click", () => {
+      const W = 900, H = 500;
+      const cv = document.createElement("canvas");
+      cv.width = W; cv.height = H;
+      const ctx = cv.getContext("2d");
+      const FONT = "'Ma Shan Zheng','KaiTi','STKaiti',serif";
+      const SONG = "'Noto Serif SC','SimSun',serif";
+
+      /* 宣纸底 + 双线框 */
+      ctx.fillStyle = "#f7f2e6";
+      ctx.fillRect(0, 0, W, H);
+      ctx.strokeStyle = "#9e3d33";
+      ctx.lineWidth = 3;
+      ctx.strokeRect(20, 20, W - 40, H - 40);
+      ctx.lineWidth = 1;
+      ctx.strokeRect(32, 32, W - 64, H - 64);
+
+      /* 印章 */
+      ctx.fillStyle = "#9e3d33";
+      if (ctx.roundRect) { ctx.beginPath(); ctx.roundRect(52, 48, 66, 66, 10); ctx.fill(); }
+      else ctx.fillRect(52, 48, 66, 66);
+      ctx.fillStyle = "#f9f4e7";
+      ctx.font = "bold 30px " + FONT;
+      ctx.textAlign = "center"; ctx.textBaseline = "middle";
+      ctx.fillText("物", 85, 82);
+
+      /* 意象名 + 类别 */
+      ctx.textAlign = "left"; ctx.textBaseline = "alphabetic";
+      ctx.fillStyle = "#2f2a24";
+      ctx.font = "bold 72px " + FONT;
+      ctx.fillText(d.name, 150, 108);
+      ctx.font = "20px " + SONG;
+      ctx.fillStyle = "#8a7f6d";
+      ctx.fillText("〔" + d.category + "〕", 160 + ctx.measureText(d.name).width + 60, 104);
+
+      /* 名句 */
+      const quote = (d.aliases || []).find(a => a.quote)?.quote
+        || (d.emotions || []).flatMap(e => e.evidences || [])[0]?.quote
+        || (d.examples || [])[0]?.line || "";
+      if (quote) {
+        ctx.fillStyle = "#9e3d33";
+        ctx.font = "26px " + SONG;
+        ctx.fillText("「" + quote.slice(0, 24) + (quote.length > 24 ? "……」" : "」"), 56, 168);
+      }
+
+      /* 简介（自动换行，最多 5 行） */
+      ctx.fillStyle = "#2f2a24";
+      ctx.font = "19px " + SONG;
+      const maxW = W - 130, lh = 34;
+      let line = "", lines = [];
+      for (const ch of d.summary) {
+        if (ctx.measureText(line + ch).width > maxW) {
+          lines.push(line); line = ch;
+          if (lines.length >= 5) { lines[4] += "……"; break; }
+        } else line += ch;
+      }
+      if (lines.length < 5 && line) lines.push(line);
+      lines.forEach((l, i) => ctx.fillText(l, 56, 220 + i * lh));
+
+      /* 底部信息 */
+      ctx.fillStyle = "#8a7f6d";
+      ctx.font = "16px " + SONG;
+      ctx.fillText("物色集 · 意象百科", 56, H - 56);
+      ctx.textAlign = "right";
+      ctx.fillText("物色之动，心亦摇焉", W - 56, H - 56);
+
+      /* 下载 */
+      const a = document.createElement("a");
+      a.download = "物色集-" + d.name + ".png";
+      a.href = cv.toDataURL("image/png");
+      a.click();
+    });
   }
 
   /* ---------- 时节语汇 ---------- */

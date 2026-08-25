@@ -278,6 +278,29 @@ a:hover { text-decoration: underline; }
 .season-card blockquote { margin: 8px 0 0; }
 .season-card .from a { color: var(--cinnabar); }
 
+/* 详情页锚点目录 */
+.sec-nav {
+  position: sticky; top: 64px; z-index: 6;
+  display: flex; flex-wrap: wrap; gap: 8px;
+  padding: 10px 0; margin: 0 0 4px;
+  background: linear-gradient(to bottom, var(--paper) 78%, transparent);
+}
+.sec-nav button {
+  font: inherit; font-size: 13px; letter-spacing: 1px;
+  padding: 4px 14px; cursor: pointer;
+  color: var(--ink-soft); background: var(--card);
+  border: 1px solid var(--line-soft); border-radius: 999px;
+  transition: all 0.2s ease;
+}
+.sec-nav button:hover { color: var(--cinnabar); border-color: rgba(158, 61, 51, 0.45); }
+
+/* 分享按钮 */
+.share-btn { margin-top: 12px; }
+@media (max-width: 768px) {
+  .sec-nav { top: 56px; }
+  .chart-box { height: 430px; }
+}
+
 mark {
   background: rgba(158, 61, 51, 0.18);
   color: inherit;

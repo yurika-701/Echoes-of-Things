@@ -1,4 +1,4 @@
-/* ============================================================
+﻿/* ============================================================
  * 物色集 · 意象网（graph.js）
  * ------------------------------------------------------------
  * 两张图，对应两层网络：
@@ -106,19 +106,24 @@ const GRAPH = (() => {
     try { ech = await ensureECharts(); }
     catch (e) { return renderChainFallback(container, d); }
 
-    const LAYER_X = { root: 0, alias: -340, emotion: 300, compound: 700, film: 1100, books: 1500 };
+    /* 移动端自适应：窄屏压缩横向间距、缩小节点与字号 */
+    const mobile = window.innerWidth < 768;
+    const S = mobile ? 0.72 : 1;
+    const LAYER_X = mobile
+      ? { root: 0, alias: -210, emotion: 190, compound: 420, film: 650, books: 880 }
+      : { root: 0, alias: -340, emotion: 300, compound: 700, film: 1100, books: 1500 };
     const nodes = [], links = [];
 
     nodes.push({
-      id: "root", name: d.name, x: LAYER_X.root, y: 0, symbolSize: fitSize(d.name, 76, 26),
+      id: "root", name: d.name, x: LAYER_X.root, y: 0, symbolSize: fitSize(d.name, 76 * S, 26 * S),
       category: 0, itemStyle: { color: C.root, borderColor: "#fbf8f0", borderWidth: 2 },
-      label: { show: true, fontSize: 26, color: "#f7f2e6", fontWeight: "bold", fontFamily: "Ma Shan Zheng, Noto Serif SC, serif" },
+      label: { show: true, fontSize: 26 * S, color: "#f7f2e6", fontWeight: "bold", fontFamily: "Ma Shan Zheng, Noto Serif SC, serif" },
       tooltip: { content: "中心意象" }
     });
 
     /* 词汇层：别称（异名） */
     (d.aliases || []).forEach((a, i, arr) => {
-      const y = (i - (arr.length - 1) / 2) * 110;
+      const y = (i - (arr.length - 1) / 2) * 110 * S;
       const id = "alias" + i;
       nodes.push({
         id, name: a.alias, x: LAYER_X.alias, y,
@@ -133,7 +138,7 @@ const GRAPH = (() => {
 
     /* 情感层 */
     (d.emotions || []).forEach((e, i, arr) => {
-      const y = (i - (arr.length - 1) / 2) * 150;
+      const y = (i - (arr.length - 1) / 2) * 150 * S;
       const id = "emo" + i;
       nodes.push({
         id, name: e.emotion, x: LAYER_X.emotion, y,
@@ -149,7 +154,7 @@ const GRAPH = (() => {
     /* 复合意象层：情感凝结（carries 命中情感即连边） */
     let labelledCondense = false;
     (d.compounds || []).forEach((c, i, arr) => {
-      const y = (i - (arr.length - 1) / 2) * 130;
+      const y = (i - (arr.length - 1) / 2) * 130 * S;
       const id = "cpd" + i;
       nodes.push({
         id, name: c.name, x: LAYER_X.compound, y,
@@ -181,7 +186,7 @@ const GRAPH = (() => {
     /* 跨媒介层：电影转译 */
     let labelledTrans = false;
     (d.films || []).forEach((f, i, arr) => {
-      const y = (i - (arr.length - 1) / 2) * 190;
+      const y = (i - (arr.length - 1) / 2) * 190 * S;
       const id = "film" + i;
       nodes.push({
         id, name: f.title, x: LAYER_X.film, y,
@@ -229,7 +234,7 @@ const GRAPH = (() => {
     /* 跨文本层：名著转译 */
     let labelledBook = false;
     (d.books || []).forEach((b, i, arr) => {
-      const y = (i - (arr.length - 1) / 2) * 190;
+      const y = (i - (arr.length - 1) / 2) * 190 * S;
       const id = "book" + i;
       nodes.push({
         id, name: b.title, x: LAYER_X.books, y,
@@ -275,6 +280,15 @@ const GRAPH = (() => {
       }
     });
 
+    /* 移动端：统一缩放节点尺寸 */
+    if (mobile) {
+      nodes.forEach(n => {
+        if (Array.isArray(n.symbolSize)) n.symbolSize = n.symbolSize.map(v => Math.round(v * S));
+        else if (typeof n.symbolSize === "number") n.symbolSize = Math.round(n.symbolSize * S);
+        if (n.label && n.label.fontSize && n.id !== "root") n.label.fontSize = Math.round(n.label.fontSize * S);
+      });
+    }
+
     const layerNames = ["本名", "别称（词汇）", "情感", "复合意象", "电影（跨媒介）", "名著（跨文本）"];
     const chart = mount(container);
     chart.setOption({
@@ -294,7 +308,7 @@ const GRAPH = (() => {
         edgeSymbol: ["none", "arrow"], edgeSymbolSize: 7,
         label: { show: true, color: INK, fontSize: 13 },
         edgeLabel: {
-          show: true, fontSize: 12, color: "#8a7f6d",
+          show: true, fontSize: mobile ? 10 : 12, color: "#8a7f6d",
           formatter: p => (p.data && p.data.tag) || ""
         },
         lineStyle: { color: C.edgeNeutral, width: 1.6, curveness: 0.08, opacity: 0.85 },
