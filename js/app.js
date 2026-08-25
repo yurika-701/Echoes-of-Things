@@ -35,6 +35,7 @@
     const h = decodeURIComponent(location.hash || "#/");
     if (h.startsWith("#/i/")) return { page: "detail", name: h.slice(4) };
     if (h.startsWith("#/k/")) return { page: "keyword", kw: h.slice(4) };
+    if (h.startsWith("#/season/")) return { page: "season", kw: h.slice("#/season/".length) };
     if (h.startsWith("#/season")) return { page: "season" };
     if (h.startsWith("#/net")) return { page: "net" };
     if (h.startsWith("#/about")) return { page: "about" };
@@ -54,7 +55,7 @@
     setActiveNav(["net", "about", "season"].includes(route.page) ? route.page : "home");
     if (route.page === "detail" && WUSE.imagery[route.name]) return renderDetail(route.name);
     if (route.page === "keyword") return renderKeyword(route.kw);
-    if (route.page === "season") return renderSeason();
+    if (route.page === "season") return renderSeason(route.kw || "");
     if (route.page === "net") return renderNet();
     if (route.page === "about") return renderAbout();
     return renderHome();
@@ -93,7 +94,7 @@
         </div>
         <form class="search-box" id="home-search">
           <input type="text" id="search-input" list="search-list" placeholder="输入一个意象，如：雨" autocomplete="off">
-          <datalist id="search-list">${IMAGERY_NAMES.map(n => `<option value="${n}">`).join("")}</datalist>
+          <datalist id="search-list">${IMAGERY_NAMES.map(n => `<option value="${n}">`).join("")}${(WUSE.seasonWords || []).map(w => `<option value="${esc(w.word)}">`).join("")}</datalist>
           <button type="submit">物色</button>
         </form>
         <p class="search-hint">支持任意关键词检索公开诗词库（不限于收录的意象）</p>
@@ -126,12 +127,15 @@
     });
   }
 
-  /* 搜索解析：命中意象/别称 → 详情；否则 → 关键词检索页 */
+  /* 搜索解析：命中意象/别称 → 详情；时节语汇 → 时节专栏；否则 → 关键词检索页 */
   function resolveSearch(kw) {
     if (WUSE.imagery[kw]) return navTo("#/i/" + encodeURIComponent(kw));
     for (const name of IMAGERY_NAMES) {
       const hit = (WUSE.imagery[name].aliases || []).find(a => a.alias === kw);
       if (hit) return navTo("#/i/" + encodeURIComponent(name));
+    }
+    if ((WUSE.seasonWords || []).some(w => w.word === kw)) {
+      return navTo("#/season/" + encodeURIComponent(kw));
     }
     navTo("#/k/" + encodeURIComponent(kw));
   }
@@ -365,7 +369,7 @@
   }
 
   /* ---------- 时节语汇 ---------- */
-  function renderSeason() {
+  function renderSeason(prefillKw) {
     const GROUP_DEFS = [
       { key: "雨泽", hint: "落在正确时节的雨，各有其名", words: ["濯枝雨", "解霜雨", "桃花水", "梅雨", "杏花雨", "木樨蒸"] },
       { key: "风信", hint: "风是季节的信使", words: ["黄雀风", "花信风", "熏风", "青岚", "金风", "朔风"] },
@@ -385,7 +389,7 @@
         <p class="summary">古人为「什么时候」造了无数微妙的词：五六月的大雨叫濯枝雨，初夏第一阵微风叫青岚，一年将尽叫岁聿云暮。时间在他们那里不是刻度，是物候与心事的合拍。</p>
       </div>
       <div class="season-filter">
-        <input type="text" id="season-input" placeholder="筛选：如 雨 / 暮 / 五月……" autocomplete="off">
+        <input type="text" id="season-input" placeholder="筛选：如 雨 / 暮 / 五月……" autocomplete="off"${prefillKw ? ` value="${esc(prefillKw)}"` : ""}>
       </div>
       <div id="season-body">
         ${GROUP_DEFS.map(g => {
@@ -408,19 +412,24 @@
       </div>
       <p class="empty-note hidden" id="season-empty">没有匹配的语汇。</p>`;
 
-    $("#season-input").addEventListener("input", e => {
-      const kw = e.target.value.trim().toLowerCase();
-      let any = false;
-      document.querySelectorAll("#season-body .season-card").forEach(card => {
-        const hit = !kw || card.dataset.kw.toLowerCase().includes(kw);
-        card.style.display = hit ? "" : "none";
-        if (hit) any = true;
-      });
-      document.querySelectorAll("#season-body .detail-section").forEach(sec => {
-        sec.style.display = [...sec.querySelectorAll(".season-card")].some(c => c.style.display !== "none") ? "" : "none";
-      });
-      $("#season-empty").classList.toggle("hidden", any || !kw);
+    $("#season-input").addEventListener("input", e => applySeasonFilter(e.target.value.trim()));
+    if (prefillKw) applySeasonFilter(prefillKw);
+  }
+
+  function applySeasonFilter(rawKw) {
+    const kw = rawKw.trim().toLowerCase();
+    const input = $("#season-input");
+    if (!input || !$("#season-body")) return;
+    let any = false;
+    document.querySelectorAll("#season-body .season-card").forEach(card => {
+      const hit = !kw || card.dataset.kw.toLowerCase().includes(kw);
+      card.style.display = hit ? "" : "none";
+      if (hit) any = true;
     });
+    document.querySelectorAll("#season-body .detail-section").forEach(sec => {
+      sec.style.display = [...sec.querySelectorAll(".season-card")].some(c => c.style.display !== "none") ? "" : "none";
+    });
+    $("#season-empty").classList.toggle("hidden", any || !kw);
   }
 
   /* ---------- 联网检索（详情页与关键词页共用） ---------- */
