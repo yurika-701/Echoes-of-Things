@@ -5530,6 +5530,538 @@ for (const [k, e] of Object.entries(STD_ENTRIES4C)) {
   if (!WUSE.imagery[k]) WUSE.imagery[k] = e;
 }
 
+/* 标准精选第五批（一）：残灯 寒砧 暮山 远岫 烟渚 芳洲 兰皋 */
+const STD_ENTRIES5 = {
+  "残灯": { name: "残灯", category: "器物", wiki: "灯", tier: "standard",
+    summary: "残灯是烧到后半夜的灯：元稹在残灯下听说白居易被贬，重病中惊坐而起——灯越残，友情越亮。",
+    aliases: [
+      { alias: "残焰", kind: "状称", note: "将熄的火苗", quote: "残灯无焰影幢幢", from: "元稹《闻乐天授江州司马》" },
+      { alias: "幢幢影", kind: "借代", note: "残灯摇晃的影子", quote: "残灯无焰影幢幢", from: "元稹《闻乐天授江州司马》" }
+    ],
+    emotions: [
+      { emotion: "闻谪之惊", note: "重病中听说好友被贬，惊坐而起", evidences: [{ quote: "残灯无焰影幢幢，此夕闻君谪九江。垂死病中惊坐起，暗风吹雨入寒窗", from: "元稹《闻乐天授江州司马》" }] },
+      { emotion: "暗风入窗", note: "风也黑，雨也冷", evidences: [{ quote: "暗风吹雨入寒窗", from: "元稹《闻乐天授江州司马》" }] }
+    ],
+    compounds: [
+      { name: "垂死病中惊坐起", formula: "残灯 + 重病 + 挚友被贬", carries: "友情的条件反射", quote: "垂死病中惊坐起，暗风吹雨入寒窗", from: "元稹《闻乐天授江州司马》", note: "白居易读到此句说：此句他人尚不可闻，况仆心哉——友情的最强证据是身体反应。" },
+      { name: "残灯无焰", formula: "残灯 + 幢幢影 + 寒窗", carries: "消息的坏成色", quote: "残灯无焰影幢幢", from: "元稹《闻乐天授江州司马》", note: "灯将熄时影子最大——坏消息总在灯最残时到。" }
+    ],
+    films: [{ title: "海边的曼彻斯特", year: 2016, director: "肯尼斯·罗纳根", mode: "化用", scene: "李在酒吧与深夜公寓的残灯下，反复咀嚼无法原谅的自己。", emotion: "残灯下的悔恨", lineage: "残灯无焰影幢幢——李的手永远暖不热那盏灯。" }],
+    books: [{ title: "闻乐天授江州司马", author: "元稹", mode: "承", scene: "元白友情的最强证据：一封贬谪消息引发的病中惊坐。", emotion: "残灯的诗史义", lineage: "元白唱和千余首——残灯是这段友情的守夜人。" }],
+    eras: [
+      { era: "唐", quote: "垂死病中惊坐起", from: "元稹《闻乐天授江州司马》", note: "残灯的友情义定型。" }
+    ]
+  },
+  "寒砧": { name: "寒砧", category: "器物", wiki: "砧", tier: "standard",
+    summary: "寒砧是秋夜捣衣的石砧：张若虚说捣衣砧上拂还来——愁像砧声，拂了还来，赶不走。",
+    aliases: [
+      { alias: "捣衣砧", kind: "功能借代", note: "捣衣之石", quote: "捣衣砧上拂还来", from: "张若虚《春江花月夜》" },
+      { alias: "砧杵", kind: "合称", note: "砧与杵", quote: "按：习用语汇（整理）", from: "按：古人语汇（整理）" }
+    ],
+    emotions: [
+      { emotion: "拂还来之愁", note: "愁拂了还来——砧声也是", evidences: [{ quote: "玉户帘中卷不去，捣衣砧上拂还来", from: "张若虚《春江花月夜》" }] },
+      { emotion: "秋至之拭", note: "明知戍不返，秋至仍拭砧", evidences: [{ quote: "亦知戍不返，秋至拭清砧", from: "杜甫《捣衣》" }] }
+    ],
+    compounds: [
+      { name: "捣衣砧上拂还来", formula: "寒砧 + 月色 + 愁", carries: "赶不走的思念", quote: "捣衣砧上拂还来", from: "张若虚《春江花月夜》", note: "月光拂不去，砧声赶不走——春江花月夜把愁写成了物理现象。" },
+      { name: "秋至拭清砧", formula: "寒砧 + 秋至 + 明知不返", carries: "最深的等待", quote: "亦知戍不返，秋至拭清砧", from: "杜甫《捣衣》", note: "明知回不来还要捣衣——等待的最高形式是不抱希望的准备。" }
+    ],
+    films: [{ title: "满江红", year: 2023, director: "张艺谋", mode: "化用", scene: "深宅大院里，杵声与脚步声、密谋声交织一夜。", emotion: "院落里的杵声与杀机", lineage: "长安一片月——满江红把捣衣声换成了密谋的脚步声。" }],
+    books: [{ title: "捣衣", author: "杜甫", mode: "承", scene: "用尽闺中力，君听空外音——捣衣声传到塞外。", emotion: "砧声的传播学", lineage: "亦知戍不返——明知回不来还要捣衣，这是最深的等待。" }],
+    eras: [
+      { era: "唐", quote: "捣衣砧上拂还来", from: "张若虚《春江花月夜》", note: "寒砧的愁绪义。" },
+      { era: "唐", quote: "秋至拭清砧", from: "杜甫《捣衣》", note: "寒砧的等待义。" }
+    ]
+  },
+  "暮山": { name: "暮山", category: "地理", wiki: "山", tier: "standard",
+    summary: "暮山是傍晚的山：王勃看它「烟光凝而暮山紫」——暮色给山上了妆，紫色的那种。",
+    aliases: [
+      { alias: "暮山紫", kind: "凝固语汇", note: "王勃名句", quote: "烟光凝而暮山紫", from: "王勃《滕王阁序》" },
+      { alias: "晚山", kind: "异名", note: "傍晚的山", quote: "按：习用语汇（整理）", from: "按：古人语汇（整理）" }
+    ],
+    emotions: [
+      { emotion: "烟光之凝", note: "烟光凝住，山就成了紫色", evidences: [{ quote: "烟光凝而暮山紫", from: "王勃《滕王阁序》" }] },
+      { emotion: "山之表情", note: "春山如笑，暮山如睡", evidences: [{ quote: "春山淡冶而如笑，夏山苍翠而如滴", from: "郭熙《林泉高致》" }] }
+    ],
+    compounds: [
+      { name: "暮山紫", formula: "暮山 + 烟光 + 紫", carries: "山色的晚妆", quote: "烟光凝而暮山紫", from: "王勃《滕王阁序》", note: "一个「紫」字让山有了颜色心理学。" },
+      { name: "溪山行旅", formula: "暮山 + 行旅 + 溪", carries: "山水画的母题", quote: "按：范宽《溪山行旅图》为传世山水第一名画（整理）", from: "按：台北故宫藏（整理）", note: "暮山里的行旅小人——郭熙说山有四季表情，范宽画的是行旅的表情。" }
+    ],
+    films: [{ title: "只此青绿", year: 2024, director: "周莉亚 / 韩真", mode: "化用", scene: "舞蹈诗剧电影：展卷人与《千里江山图》的青绿山水。", emotion: "山色的舞台化", lineage: "烟光凝而暮山紫——只此青绿把山色穿成了舞衣。" }],
+    books: [{ title: "林泉高致", author: "郭熙", mode: "承", scene: "「春山淡冶而如笑，夏山苍翠而如滴，秋山明净而如妆，冬山惨淡而如睡」。", emotion: "山的四时表情", lineage: "暮山紫——郭熙说山有四季表情，紫是暮山的表情。" }],
+    eras: [
+      { era: "唐", quote: "烟光凝而暮山紫", from: "王勃《滕王阁序》", note: "暮山的紫色义。" },
+      { era: "北宋", quote: "春山如笑冬山如睡", from: "郭熙《林泉高致》", note: "暮山的表情义。" }
+    ]
+  },
+  "远岫": { name: "远岫", category: "地理", wiki: "山", tier: "standard",
+    summary: "远岫是远处的峰峦：陶渊明说「云无心以出岫」——云从山洞里飘出来，连它自己都不知道要去哪。",
+    aliases: [
+      { alias: "云岫", kind: "借代", note: "云出之山穴", quote: "云无心以出岫，鸟倦飞而知还", from: "陶渊明《归去来兮辞》" },
+      { alias: "峰岫", kind: "合称", note: "峰峦岫壑", quote: "峰岫峣嶷，云林森眇", from: "宗炳《画山水序》" }
+    ],
+    emotions: [
+      { emotion: "云出无心", note: "云飘出来是无心的", evidences: [{ quote: "云无心以出岫，鸟倦飞而知还", from: "陶渊明《归去来兮辞》" }] },
+      { emotion: "倦飞知还", note: "鸟飞累了就知道回来", evidences: [{ quote: "鸟倦飞而知还", from: "陶渊明《归去来兮辞》" }] }
+    ],
+    compounds: [
+      { name: "云无心以出岫", formula: "远岫 + 无心之云", carries: "无目的的自由", quote: "云无心以出岫", from: "陶渊明《归去来兮辞》", note: "陶渊明的辞职信里最仙的一句——连云都不带目的性。" },
+      { name: "鸟倦飞知还", formula: "远岫 + 倦鸟 + 知还", carries: "累了就回家的智慧", quote: "鸟倦飞而知还", from: "陶渊明《归去来兮辞》", note: "和归鸟意象同源——倦了就回，是鸟的本能也是人的理想。" }
+    ],
+    films: [{ title: "云上的日子", year: 1995, director: "米开朗基罗·安东尼奥尼", mode: "化用", scene: "四段云端般的爱情故事，导演说：每个影像背后都藏着另一个更真实影像。", emotion: "云上的四段爱情", lineage: "云无心以出岫——安东尼奥尼的云也没有心，飘到哪算哪。" }],
+    books: [{ title: "归去来兮辞", author: "陶渊明", mode: "承", scene: "云无心以出岫——辞职信里最仙的一句。", emotion: "远岫的哲学义", lineage: "云无心——陶渊明连辞职信都写得像云。" }],
+    eras: [
+      { era: "东晋", quote: "云无心以出岫", from: "陶渊明《归去来兮辞》", note: "远岫的无心义。" }
+    ]
+  },
+  "烟渚": { name: "烟渚", category: "地理", wiki: "烟渚", tier: "standard",
+    summary: "烟渚是雾气弥漫的小洲：孟浩然把船停在这里，「日暮客愁新」——烟渚一泊，新愁就到账了。",
+    aliases: [
+      { alias: "建德江", kind: "地名关联", note: "烟渚所在的江", quote: "移舟泊烟渚，日暮客愁新", from: "孟浩然《宿建德江》" },
+      { alias: "客愁新", kind: "借代", note: "新添的旅愁", quote: "日暮客愁新", from: "孟浩然《宿建德江》" }
+    ],
+    emotions: [
+      { emotion: "泊舟之愁", note: "船一停，愁就靠岸", evidences: [{ quote: "移舟泊烟渚，日暮客愁新", from: "孟浩然《宿建德江》" }] },
+      { emotion: "江月之近", note: "江清月近人——月亮是唯一陪他的", evidences: [{ quote: "野旷天低树，江清月近人", from: "孟浩然《宿建德江》" }] }
+    ],
+    compounds: [
+      { name: "江清月近人", formula: "烟渚 + 江月 + 孤客", carries: "月亮的陪伴", quote: "野旷天低树，江清月近人", from: "孟浩然《宿建德江》", note: "天比树低，月比人近——愁到深处，连透视都变了。" },
+      { name: "野旷天低树", formula: "烟渚 + 旷野 + 低树", carries: "旷野的压迫感", quote: "野旷天低树", from: "孟浩然《宿建德江》", note: "天怎么会比树低？——心里有事，天地都变形。" }
+    ],
+    films: [{ title: "南方车站的聚会", year: 2019, director: "刁亦男", mode: "化用", scene: "野鹅湖畔的亡命之徒与陪泳女，霓虹倒映湖面。", emotion: "烟渚湖畔的亡命之徒", lineage: "野旷天低树——刁亦男的湖面，天也很低。" }],
+    books: [{ title: "宿建德江", author: "孟浩然", mode: "承", scene: "二十字的客愁：烟渚、暮色、旷野、江月。", emotion: "烟渚的客愁义", lineage: "江清月近人——月亮是唯一陪他的。" }],
+    eras: [
+      { era: "唐", quote: "日暮客愁新", from: "孟浩然《宿建德江》", note: "烟渚的客愁义定型。" }
+    ]
+  },
+  "芳洲": { name: "芳洲", category: "地理", wiki: "芳洲", tier: "standard",
+    summary: "芳洲是长满香草的水中陆地：屈原「采芳洲兮杜若」——香草采来送谁？送给远方的人，香草即情书。",
+    aliases: [
+      { alias: "杜若", kind: "香草名", note: "芳洲所产香草", quote: "采芳洲兮杜若，将以遗兮下女", from: "屈原《九歌·湘君》" },
+      { alias: "芳洲杜若", kind: "凝固语汇", note: "香草与洲并称", quote: "按：衍自《九歌》（整理）", from: "按：《楚辞》（整理）" }
+    ],
+    emotions: [
+      { emotion: "采芳之赠", note: "采香草送给远方的人", evidences: [{ quote: "采芳洲兮杜若，将以遗兮下女", from: "屈原《九歌·湘君》" }] }
+    ],
+    compounds: [
+      { name: "采芳洲兮杜若", formula: "芳洲 + 杜若 + 馈赠", carries: "香草即情书", quote: "采芳洲兮杜若", from: "屈原《九歌·湘君》", note: "芳洲的杜若采来给谁？——送给远方的人，香草即情书。" }
+    ],
+    films: [{ title: "屈原", year: 1977, director: "鲍方", mode: "承", scene: "鲍方版屈原：香草美人演成了风骨。", emotion: "屈原与香草美人", lineage: "采芳洲兮杜若——鲍方版屈原把香草美人演成了风骨。" }],
+    books: [{ title: "九歌·湘君", author: "屈原", mode: "承", scene: "湘君在芳洲采杜若，等湘夫人而不得。", emotion: "芳洲的等待义", lineage: "芳洲的杜若采来给谁？——送给远方的人，香草即情书。" }],
+    eras: [
+      { era: "战国", quote: "采芳洲兮杜若", from: "屈原《九歌·湘君》", note: "芳洲的香草义定型。" }
+    ]
+  },
+  "兰皋": { name: "兰皋", category: "地理", wiki: "兰皋", tier: "standard",
+    summary: "兰皋是长满兰草的水边高地：屈原「步余马于兰皋兮」——连马的座驾都只走香草铺的路。",
+    aliases: [
+      { alias: "杜衡", kind: "香草名", note: "兰皋所产香草", quote: "杂杜衡与芳芷", from: "屈原《离骚》" },
+      { alias: "芳芷", kind: "香草名", note: "芳芷香草", quote: "杂杜衡与芳芷", from: "屈原《离骚》" }
+    ],
+    emotions: [
+      { emotion: "步马兰皋", note: "让马在兰皋散步——高洁到连路都是香的", evidences: [{ quote: "步余马于兰皋兮，驰椒丘且焉止息", from: "屈原《离骚》" }] },
+      { emotion: "杂佩之饰", note: "身上佩戴的全是香草", evidences: [{ quote: "杂杜衡与芳芷", from: "屈原《离骚》" }] }
+    ],
+    compounds: [
+      { name: "步马兰皋", formula: "兰皋 + 余马 + 高洁", carries: "座驾的品格", quote: "步余马于兰皋兮", from: "屈原《离骚》", note: "屈原的座驾都只走香草铺的路。" },
+      { name: "芳芷杜衡", formula: "兰皋 + 芳芷 + 杜衡", carries: "香草清单", quote: "杂杜衡与芳芷", from: "屈原《离骚》", note: "离骚里的香草清单就是屈原的品格清单。" }
+    ],
+    films: [{ title: "屈原", year: 1977, director: "鲍方", mode: "承", scene: "屈原的香草园与兰皋漫步。", emotion: "屈原的香草园", lineage: "步余马于兰皋——屈原的座驾都只走香草铺的路。" }],
+    books: [{ title: "离骚", author: "屈原", mode: "承", scene: "香草美人的总纲：纫秋兰以为佩。", emotion: "兰皋的品格义", lineage: "纫秋兰以为佩——离骚里的香草清单就是屈原的品格清单。" }],
+    eras: [
+      { era: "战国", quote: "步余马于兰皋兮", from: "屈原《离骚》", note: "兰皋的高洁义定型。" }
+    ]
+  }
+};
+for (const [k, e] of Object.entries(STD_ENTRIES5)) {
+  if (!WUSE.imagery[k]) WUSE.imagery[k] = e;
+}
+
+/* 标准精选第五批（二）：曲径 柴门 朱门 画栋 危栏 飞阁 残阳 雾凇 涛声 */
+const STD_ENTRIES5B = {
+  "曲径": { name: "曲径", category: "地理", wiki: "曲径", tier: "standard",
+    summary: "曲径通幽处——常建这一句成了中国园林的第一设计原则：路要弯，景要藏，苏州园林全是它的注脚。",
+    aliases: [
+      { alias: "幽径", kind: "借代", note: "幽深小径", quote: "曲径通幽处，禅房花木深", from: "常建《题破山寺后禅院》" },
+      { alias: "禅径", kind: "借代", note: "通往禅房之径", quote: "曲径通幽处", from: "常建《题破山寺后禅院》" }
+    ],
+    emotions: [
+      { emotion: "通幽之趣", note: "路越弯，尽头越惊喜", evidences: [{ quote: "曲径通幽处，禅房花木深", from: "常建《题破山寺后禅院》" }] },
+      { emotion: "万籁之静", note: "走到尽头，只剩钟磬声", evidences: [{ quote: "万籁此都寂，但余钟磬音", from: "常建《题破山寺后禅院》" }] }
+    ],
+    compounds: [
+      { name: "曲径通幽处", formula: "曲径 + 幽处 + 禅房", carries: "园林设计第一原则", quote: "曲径通幽处，禅房花木深", from: "常建《题破山寺后禅院》", note: "苏州园林全是它的注脚——路要弯，景要藏。" },
+      { name: "禅房花木深", formula: "曲径 + 花木 + 禅房", carries: "深处的奖励", quote: "禅房花木深", from: "常建《题破山寺后禅院》", note: "曲径的尽头必须有奖励——花木深就是奖励。" }
+    ],
+    films: [{ title: "刺客聂隐娘", year: 2015, director: "侯孝贤", mode: "承", scene: "唐代庭院的曲径、纱帐与烛光，镜头永远藏在树后。", emotion: "曲径的唐代美学", lineage: "曲径通幽处——侯孝贤的镜头就是一条曲径，通向看不见的幽处。" }],
+    books: [{ title: "题破山寺后禅院", author: "常建", mode: "承", scene: "清晨入古寺，初日照高林——曲径的禅意。", emotion: "曲径的禅意", lineage: "曲径通幽成了中国园林的第一设计原则。" }],
+    eras: [
+      { era: "唐", quote: "曲径通幽处", from: "常建《题破山寺后禅院》", note: "曲径的禅意义定型。" }
+    ]
+  },
+  "柴门": { name: "柴门", category: "建筑", wiki: "柴门", tier: "standard",
+    summary: "柴门是穷人家的门：它闻过风雪夜归人的犬吠（刘长卿），也为贵客开过（蓬门今始为君开）——门越简陋，开起来越真心。",
+    aliases: [
+      { alias: "蓬门", kind: "借代", note: "蓬草编的门", quote: "花径不曾缘客扫，蓬门今始为君开", from: "杜甫《客至》" },
+      { alias: "柴扉", kind: "异名", note: "柴木之门", quote: "小扣柴扉久不开", from: "叶绍翁《游园不值》" }
+    ],
+    emotions: [
+      { emotion: "风雪夜归", note: "柴门犬吠，风雪里有人回家", evidences: [{ quote: "柴门闻犬吠，风雪夜归人", from: "刘长卿《逢雪宿芙蓉山主人》" }] },
+      { emotion: "为君之开", note: "花径没扫，门今天为你开", evidences: [{ quote: "花径不曾缘客扫，蓬门今始为君开", from: "杜甫《客至》" }] }
+    ],
+    compounds: [
+      { name: "柴门闻犬吠", formula: "柴门 + 犬吠 + 夜归人", carries: "风雪夜的温暖", quote: "柴门闻犬吠，风雪夜归人", from: "刘长卿《逢雪宿芙蓉山主人》", note: "前两句多冷，这句犬吠就多暖。" },
+      { name: "蓬门为君开", formula: "柴门 + 贵客 + 扫径", carries: "穷人的待客之道", quote: "肯与邻翁相对饮，隔篱呼取尽余杯", from: "杜甫《客至》", note: "杜甫的待客：没好菜但有真心，还能隔墙喊邻居。" }
+    ],
+    films: [{ title: "暖", year: 2003, director: "霍建起", mode: "化用", scene: "乡村柴门内外，暖与井河的等待与错过。", emotion: "柴门里的等待", lineage: "风雪夜归人——暖的柴门里，等的人没有回来。" }],
+    books: [{ title: "客至", author: "杜甫", mode: "承", scene: "舍南舍北皆春水，但见群鸥日日来——成都草堂的待客。", emotion: "柴门的待客之道", lineage: "肯与邻翁相对饮，隔篱呼取尽余杯——杜甫的待客：没好菜但有真心。" }],
+    eras: [
+      { era: "唐", quote: "柴门闻犬吠", from: "刘长卿《逢雪宿芙蓉山主人》", note: "柴门的夜归义。" },
+      { era: "唐", quote: "蓬门今始为君开", from: "杜甫《客至》", note: "柴门的待客义。" }
+    ]
+  },
+  "朱门": { name: "朱门", category: "建筑", wiki: "朱门", tier: "standard",
+    summary: "朱门是权贵的门：朱门酒肉臭，路有冻死骨——杜甫十个字，给整个盛唐写了讣告。",
+    aliases: [
+      { alias: "侯门", kind: "借代", note: "权贵之门", quote: "侯门一入深如海", from: "崔郊《赠去婢》" },
+      { alias: "豪门", kind: "借代", note: "豪富之家", quote: "按：习用语汇（整理）", from: "按：古人语汇（整理）" }
+    ],
+    emotions: [
+      { emotion: "酒肉之臭", note: "门内酒肉臭，门外冻死骨", evidences: [{ quote: "朱门酒肉臭，路有冻死骨", from: "杜甫《自京赴奉先县咏怀五百字》" }] },
+      { emotion: "冻死之骨", note: "路边的白骨是对照物", evidences: [{ quote: "路有冻死骨", from: "杜甫《自京赴奉先县咏怀五百字》" }] }
+    ],
+    compounds: [
+      { name: "朱门酒肉臭", formula: "朱门 + 酒肉 + 冻骨", carries: "十字史诗", quote: "朱门酒肉臭，路有冻死骨", from: "杜甫《自京赴奉先县咏怀五百字》", note: "这十个字写成那年安史之乱爆发——杜甫提前给时代写了讣告。" },
+      { name: "路有冻死骨", formula: "冻骨 + 路 + 对照", carries: "路边的白骨是对照物", quote: "路有冻死骨", from: "杜甫《自京赴奉先县咏怀五百字》", note: "朱门与冻骨，一门一路，一臭一寒。" }
+    ],
+    films: [{ title: "霸王别姬", year: 1993, director: "陈凯歌", mode: "化用", scene: "程蝶衣在朱门戏楼唱戏，唱的都是别人的人生。", emotion: "朱门里的戏梦人生", lineage: "朱门酒肉臭——程蝶衣在朱门唱戏，唱的都是别人的人生。" }],
+    books: [{ title: "自京赴奉先县咏怀五百字", author: "杜甫", mode: "承", scene: "从长安到奉先县一路所见，到家即闻幼子饿死。", emotion: "十字史诗", lineage: "这十个字写成那年安史之乱爆发——杜甫提前给时代写了讣告。" }],
+    eras: [
+      { era: "唐", quote: "朱门酒肉臭", from: "杜甫《自京赴奉先县咏怀五百字》", note: "朱门的批判义定型。" }
+    ]
+  },
+  "画栋": { name: "画栋", category: "建筑", wiki: "画栋", tier: "standard",
+    summary: "画栋是雕画的屋梁：王勃看它「朝飞南浦云」——画栋太美，连云都来住宿。",
+    aliases: [
+      { alias: "雕梁", kind: "合称", note: "画栋雕梁", quote: "画栋朝飞南浦云，珠帘暮卷西山雨", from: "王勃《滕王阁诗》" },
+      { alias: "南浦云", kind: "借代", note: "画栋上朝飞的云", quote: "画栋朝飞南浦云", from: "王勃《滕王阁诗》" }
+    ],
+    emotions: [
+      { emotion: "朝云之飞", note: "早上南浦的云飞过画栋", evidences: [{ quote: "画栋朝飞南浦云，珠帘暮卷西山雨", from: "王勃《滕王阁诗》" }] },
+      { emotion: "物换星移", note: "物换星移几度秋——楼还在，人没了", evidences: [{ quote: "物换星移几度秋", from: "王勃《滕王阁诗》" }] }
+    ],
+    compounds: [
+      { name: "画栋朝飞南浦云", formula: "画栋 + 南浦云 + 珠帘", carries: "建筑与云的互动", quote: "画栋朝飞南浦云，珠帘暮卷西山雨", from: "王勃《滕王阁诗》", note: "朝云暮雨都归画栋珠帘管——建筑有了呼吸。" },
+      { name: "物换星移", formula: "画栋 + 星移 + 几度秋", carries: "时间的单位", quote: "闲云潭影日悠悠，物换星移几度秋", from: "王勃《滕王阁诗》", note: "「物换星移」自此成为时间流逝的成语。" }
+    ],
+    films: [{ title: "妖猫传", year: 2017, director: "陈凯歌", mode: "化用", scene: "花萼相辉楼的画栋雕梁，极乐之宴的盛唐幻境。", emotion: "盛唐画栋的极乐之宴", lineage: "画栋朝飞南浦云——妖猫传把滕王阁的画栋搬到了大唐。" }],
+    books: [{ title: "滕王阁诗", author: "王勃", mode: "承", scene: "滕王高阁临江渚，佩玉鸣鸾罢歌舞——序的姊妹篇。", emotion: "画栋的原文", lineage: "阁中帝子今何在？槛外长江空自流。" }],
+    eras: [
+      { era: "唐", quote: "画栋朝飞南浦云", from: "王勃《滕王阁诗》", note: "画栋的怀古义定型。" }
+    ]
+  },
+  "危栏": { name: "危栏", category: "建筑", wiki: "危栏", tier: "standard",
+    summary: "危栏是高楼的栏杆：岳飞在它面前怒发冲冠，李煜说独自莫凭栏——栏杆拍遍，拍的都是心事。",
+    aliases: [
+      { alias: "凭栏", kind: "动作借代", note: "倚靠栏杆", quote: "怒发冲冠，凭栏处、潇潇雨歇", from: "岳飞《满江红·怒发冲冠》" },
+      { alias: "阑干", kind: "异名", note: "栏杆", quote: "玉容寂寞泪阑干", from: "白居易《长恨歌》" }
+    ],
+    emotions: [
+      { emotion: "凭栏之愤", note: "怒发冲冠，凭栏处", evidences: [{ quote: "怒发冲冠，凭栏处、潇潇雨歇", from: "岳飞《满江红》" }] },
+      { emotion: "莫凭之劝", note: "独自莫凭栏——凭栏就想江山", evidences: [{ quote: "独自莫凭栏，无限江山，别时容易见时难", from: "李煜《浪淘沙令·帘外雨潺潺》" }] }
+    ],
+    compounds: [
+      { name: "怒发冲冠凭栏处", formula: "危栏 + 怒发 + 潇潇雨歇", carries: "凭栏的愤怒版", quote: "怒发冲冠，凭栏处、潇潇雨歇", from: "岳飞《满江红》", note: "凭栏本来是雅事，岳飞凭出了战斗力。" },
+      { name: "独自莫凭栏", formula: "危栏 + 无限江山 + 别时难", carries: "凭栏的亡国版", quote: "独自莫凭栏，无限江山", from: "李煜《浪淘沙令》", note: "李煜劝自己别凭栏——因为栏杆外面是回不去的江山。" }
+    ],
+    films: [{ title: "满江红", year: 2023, director: "张艺谋", mode: "化用", scene: "全军将士复诵《满江红》，凭栏变成冲锋号。", emotion: "凭栏的冲锋版", lineage: "怒发冲冠凭栏处——张艺谋让全军复诵，凭栏变成了冲锋。" }],
+    books: [{ title: "满江红·怒发冲冠", author: "岳飞", mode: "承", scene: "三十功名尘与土，八千里路云和月。", emotion: "危栏的悲愤义", lineage: "三十功名尘与土，八千里路云和月。" }],
+    eras: [
+      { era: "南宋", quote: "怒发冲冠凭栏处", from: "岳飞《满江红》", note: "危栏的悲愤义定型。" },
+      { era: "南唐", quote: "独自莫凭栏", from: "李煜《浪淘沙令》", note: "危栏的亡国义。" }
+    ]
+  },
+  "飞阁": { name: "飞阁", category: "建筑", wiki: "飞阁", tier: "standard",
+    summary: "飞阁是凌空高耸的楼阁：王勃说它「流丹」——红色的阁楼像要飞起来，下面深得看不见地。",
+    aliases: [
+      { alias: "飞阁流丹", kind: "凝固语汇", note: "阁檐如飞、色彩如丹", quote: "飞阁流丹，下临无地", from: "王勃《滕王阁序》" },
+      { alias: "层峦耸翠", kind: "并称", note: "与之并称的群山", quote: "层峦耸翠，上出重霄；飞阁流丹，下临无地", from: "王勃《滕王阁序》" }
+    ],
+    emotions: [
+      { emotion: "流丹之艳", note: "阁如飞，色如流丹", evidences: [{ quote: "飞阁流丹，下临无地", from: "王勃《滕王阁序》" }] },
+      { emotion: "下临无地", note: "下面深得看不见地", evidences: [{ quote: "下临无地", from: "王勃《滕王阁序》" }] }
+    ],
+    compounds: [
+      { name: "飞阁流丹", formula: "飞阁 + 流丹 + 无地", carries: "建筑的飞行感", quote: "飞阁流丹，下临无地", from: "王勃《滕王阁序》", note: "红色会流，阁楼会飞——形容词的动感用到了极限。" },
+      { name: "下临无地", formula: "飞阁 + 高度 + 眩晕", carries: "高度的眩晕感", quote: "下临无地", from: "王勃《滕王阁序》", note: "四个字制造恐高——王勃是文字建筑师。" }
+    ],
+    films: [{ title: "妖猫传", year: 2017, director: "陈凯歌", mode: "化用", scene: "花萼相辉楼的飞阁流丹，极乐之宴的盛唐幻境。", emotion: "飞阁流丹的极乐之宴", lineage: "飞阁流丹下临无地——妖猫传的花萼相辉楼就是王勃笔下的飞阁。" }],
+    books: [{ title: "洛阳伽蓝记", author: "杨衒之", mode: "承", scene: "永宁寺塔「殚土木之功，穷造形之巧」——北魏飞阁的实录。", emotion: "北魏飞阁的实录", lineage: "永宁寺塔高千尺——杨衒之重见洛阳时，塔已焚，只剩他笔下飞阁。" }],
+    eras: [
+      { era: "唐", quote: "飞阁流丹", from: "王勃《滕王阁序》", note: "飞阁的流丹义定型。" },
+      { era: "北魏", quote: "殚土木之功", from: "杨衒之《洛阳伽蓝记》", note: "飞阁的实录义。" }
+    ]
+  },
+  "残阳": { name: "残阳", category: "天象", wiki: "残阳", tier: "standard",
+    summary: "残阳是带血的落日：毛泽东说「苍山如海，残阳如血」——娄山关战役后，太阳真的是红的。",
+    aliases: [
+      { alias: "残阳如血", kind: "凝固语汇", note: "毛泽东名句", quote: "苍山如海，残阳如血", from: "毛泽东《忆秦娥·娄山关》" },
+      { alias: "斜阳", kind: "异名", note: "西斜之日", quote: "按：习用语汇（整理）", from: "按：古人语汇（整理）" }
+    ],
+    emotions: [
+      { emotion: "如血之色", note: "苍山如海，残阳如血", evidences: [{ quote: "苍山如海，残阳如血", from: "毛泽东《忆秦娥·娄山关》" }] },
+      { emotion: "从头之越", note: "雄关漫道真如铁，而今迈步从头越", evidences: [{ quote: "雄关漫道真如铁，而今迈步从头越", from: "毛泽东《忆秦娥·娄山关》" }] }
+    ],
+    compounds: [
+      { name: "残阳如血", formula: "残阳 + 苍山 + 娄山关", carries: "战役后的天色", quote: "苍山如海，残阳如血", from: "毛泽东《忆秦娥·娄山关》", note: "湘江之战后，江水真的是红的——残阳如血是写实。" },
+      { name: "苍山如海", formula: "残阳 + 苍山 + 如海", carries: "山的海洋化", quote: "苍山如海", from: "毛泽东《忆秦娥·娄山关》", note: "把群山比作海——毛泽东的比喻和李白一个量级。" }
+    ],
+    films: [{ title: "血战湘江", year: 2017, director: "陈力", mode: "承", scene: "湘江战役，红军从八万六千人锐减至三万。", emotion: "残阳如血的湘江", lineage: "残阳如血——湘江之战后，江水真的是红的。" }],
+    books: [{ title: "忆秦娥·娄山关", author: "毛泽东", mode: "承", scene: "雄关漫道真如铁，而今迈步从头越。", emotion: "残阳的出处", lineage: "雄关漫道真如铁，而今迈步从头越。" }],
+    eras: [
+      { era: "现代", quote: "残阳如血", from: "毛泽东《忆秦娥·娄山关》", note: "残阳的如血义定型。" }
+    ]
+  },
+  "雾凇": { name: "雾凇", category: "天象", wiki: "雾凇", tier: "standard",
+    summary: "雾凇是雾气在树枝上凝成的冰花：张岱在湖心亭看雪时「雾凇沆砀，天与云与山与水，上下一白」——天地全白。",
+    aliases: [
+      { alias: "雾凇沆砀", kind: "凝固语汇", note: "沆砀，白气弥漫貌", quote: "雾凇沆砀，天与云与山与水，上下一白", from: "张岱《湖心亭看雪》" },
+      { alias: "冰花", kind: "借代", note: "冰晶花", quote: "雾凇沆砀", from: "张岱《湖心亭看雪》" }
+    ],
+    emotions: [
+      { emotion: "沆砀之白", note: "天与云与山与水，上下一白", evidences: [{ quote: "雾凇沆砀，天与云与山与水，上下一白", from: "张岱《湖心亭看雪》" }] },
+      { emotion: "人鸟俱绝", note: "大雪三日，湖中人鸟声俱绝", evidences: [{ quote: "大雪三日，湖中人鸟声俱绝", from: "张岱《湖心亭看雪》" }] }
+    ],
+    compounds: [
+      { name: "雾凇沆砀", formula: "雾凇 + 天云山水 + 一白", carries: "白色的极限", quote: "雾凇沆砀，天与云与山与水，上下一白", from: "张岱《湖心亭看雪》", note: "「一白」——所有颜色都删掉，只剩白。" },
+      { name: "人鸟声俱绝", formula: "雾凇 + 大雪 + 绝", carries: "寂静的极限", quote: "大雪三日，湖中人鸟声俱绝", from: "张岱《湖心亭看雪》", note: "声音都死了，才有舟子说的痴人。" }
+    ],
+    films: [{ title: "冰雪奇缘", year: 2013, directors: "克里斯·巴克 / 珍妮弗·李", mode: "化用", scene: "艾莎挥手造出冰雪宫殿——会发光的雾凇。", emotion: "雾凇的魔法版", lineage: "雾凇沆砀——艾莎的冰雪宫殿就是会发光的雾凇。" }],
+    books: [{ title: "湖心亭看雪", author: "张岱", mode: "承", scene: "大雪三日独往湖心亭，舟子喃喃「莫说相公痴，更有痴似相公者」。", emotion: "雾凇夜的一舟一人", lineage: "莫说相公痴，更有痴似相公者——张岱的痴，是雾凇级的。" }],
+    eras: [
+      { era: "明末清初", quote: "雾凇沆砀", from: "张岱《湖心亭看雪》", note: "雾凇的痴义定型。" }
+    ]
+  },
+  "涛声": { name: "涛声", category: "天象", wiki: "涛声", tier: "standard",
+    summary: "涛声是大海的鼓点：苏轼听它「惊涛拍岸卷起千堆雪」，柳永听它「怒涛卷霜雪」——涛声越大，词越壮。",
+    aliases: [
+      { alias: "惊涛", kind: "状称", note: "惊人的波涛", quote: "惊涛拍岸，卷起千堆雪", from: "苏轼《念奴娇·赤壁怀古》" },
+      { alias: "怒涛", kind: "状称", note: "愤怒的波涛", quote: "怒涛卷霜雪，天堑无涯", from: "柳永《望海潮·东南形胜》" }
+    ],
+    emotions: [
+      { emotion: "拍岸之雪", note: "惊涛拍岸，卷起千堆雪", evidences: [{ quote: "乱石穿空，惊涛拍岸，卷起千堆雪", from: "苏轼《念奴娇·赤壁怀古》" }] },
+      { emotion: "怒涛卷雪", note: "怒涛卷起白色浪花如霜雪", evidences: [{ quote: "怒涛卷霜雪，天堑无涯", from: "柳永《望海潮》" }] }
+    ],
+    compounds: [
+      { name: "惊涛拍岸", formula: "涛声 + 乱石 + 千堆雪", carries: "赤壁的音效", quote: "乱石穿空，惊涛拍岸，卷起千堆雪", from: "苏轼《念奴娇》", note: "穿、拍、卷三个动词——苏轼的音效设计。" },
+      { name: "怒涛卷霜雪", formula: "涛声 + 霜雪 + 天堑", carries: "杭州的浪", quote: "怒涛卷霜雪，天堑无涯", from: "柳永《望海潮》", note: "钱塘潮卷起白浪如霜——柳永写的是城市宣传片里的自然奇观。" }
+    ],
+    films: [{ title: "完美风暴", year: 2000, director: "沃尔夫冈·彼德森", mode: "化用", scene: "渔船驶入完美风暴中心，巨浪如山。", emotion: "涛声就是风暴的鼓点", lineage: "惊涛拍岸卷起千堆雪——完美风暴的浪比千堆雪高。" }],
+    books: [{ title: "望海潮·东南形胜", author: "柳永", mode: "承", scene: "东南形胜，三吴都会，钱塘自古繁华。", emotion: "涛声的城市义", lineage: "传说金主完颜亮读「三秋桂子十里荷花」遂起投鞭渡江之志——一首词引发一场战争（罗大经《鹤林玉露》）。" }],
+    eras: [
+      { era: "北宋", quote: "怒涛卷霜雪", from: "柳永《望海潮》", note: "涛声的城市义。" },
+      { era: "北宋", quote: "惊涛拍岸", from: "苏轼《念奴娇》", note: "涛声的怀古义。" }
+    ]
+  }
+};
+for (const [k, e] of Object.entries(STD_ENTRIES5B)) {
+  if (!WUSE.imagery[k]) WUSE.imagery[k] = e;
+}
+
+/* 标准精选第五批（三）：樵夫 渔父 隐者 布衣 苍生 烟树 轻雷 远浦 暮色 */
+const STD_ENTRIES5C = {
+  "樵夫": { name: "樵夫", category: "人物", wiki: "樵夫", tier: "standard",
+    summary: "樵夫是山上的劳动者：他和渔父并称「渔樵」，坐在江渚上笑看古今——历史的旁观者，比历史活得久。",
+    aliases: [
+      { alias: "渔樵", kind: "并称", note: "渔夫与樵夫", quote: "白发渔樵江渚上，惯看秋月春风", from: "杨慎《临江仙·滚滚长江东逝水》" },
+      { alias: "山客", kind: "借代", note: "入山砍柴之人", quote: "按：习用语汇（整理）", from: "按：古人语汇（整理）" }
+    ],
+    emotions: [
+      { emotion: "惯看之淡", note: "白发渔樵，秋月春风都看惯了", evidences: [{ quote: "白发渔樵江渚上，惯看秋月春风", from: "杨慎《临江仙》" }] },
+      { emotion: "江渚之乐", note: "渔樵于江渚之上，侣鱼虾而友麋鹿", evidences: [{ quote: "况吾与子渔樵于江渚之上，侣鱼虾而友麋鹿", from: "苏轼《赤壁赋》" }] }
+    ],
+    compounds: [
+      { name: "白发渔樵", formula: "樵夫 + 渔父 + 江渚", carries: "历史的旁白者", quote: "白发渔樵江渚上", from: "杨慎《临江仙》", note: "毛宗岗父子把这首词放进《三国演义》卷首——渔樵成了历史的旁白者。" },
+      { name: "渔樵江渚", formula: "樵夫 + 鱼虾麋鹿 + 赤壁", carries: "苏轼的平民视角", quote: "渔樵于江渚之上", from: "苏轼《赤壁赋》", note: "苏轼被贬后发现自己也能当渔樵——平民视角救了他。" }
+    ],
+    films: [{ title: "七武士", year: 1954, director: "黑泽明", mode: "承", scene: "武士保护渔樵耕读的村庄对抗山贼。", emotion: "农民樵夫的战争", lineage: "白发渔樵江渚上——七武士保护的就是渔樵耕读的村庄。" }],
+    books: [{ title: "临江仙·滚滚长江东逝水", author: "杨慎", mode: "承", scene: "《廿一史弹词》第三段开场词，后被放入《三国演义》卷首。", emotion: "樵夫的历史义", lineage: "白发渔樵成了历史的旁白者——杨慎在贬所写出了最超脱的开场词。" }],
+    eras: [
+      { era: "明", quote: "白发渔樵江渚上", from: "杨慎《临江仙》", note: "樵夫的历史旁白义定型。" },
+      { era: "北宋", quote: "渔樵于江渚之上", from: "苏轼《赤壁赋》", note: "樵夫的平民义。" }
+    ]
+  },
+  "渔父": { name: "渔父", category: "人物", wiki: "渔父", tier: "standard",
+    summary: "渔父是江边唱歌的隐者：他劝屈原随波逐流，屈原不肯——一个要清白，一个要快活，全文就是一场对话。",
+    aliases: [
+      { alias: "沧浪渔父", kind: "典故借代", note: "唱沧浪歌的渔父", quote: "沧浪之水清兮，可以濯吾缨", from: "《楚辞·渔父》" },
+      { alias: "烟波钓徒", kind: "自号借代", note: "张志和自号", quote: "按：张志和自号烟波钓徒（整理）", from: "按：《新唐书》（整理）" }
+    ],
+    emotions: [
+      { emotion: "沧浪之歌", note: "水清濯缨，水浊濯足——随遇而安", evidences: [{ quote: "沧浪之水清兮，可以濯吾缨；沧浪之水浊兮，可以濯吾足", from: "《楚辞·渔父》" }] },
+      { emotion: "不须之归", note: "斜风细雨也不回家", evidences: [{ quote: "青箬笠，绿蓑衣，斜风细雨不须归", from: "张志和《渔歌子》" }] }
+    ],
+    compounds: [
+      { name: "沧浪之水", formula: "渔父 + 沧浪 + 屈原", carries: "两种人生观的对话", quote: "沧浪之水清兮，可以濯吾缨", from: "《楚辞·渔父》", note: "渔父劝屈原随波逐流，屈原选择了投江——全文就是一场对话。" },
+      { name: "斜风细雨不须归", formula: "渔父 + 箬笠 + 不须归", carries: "渔父的快活", quote: "斜风细雨不须归", from: "张志和《渔歌子》", note: "张志和真去做烟波钓徒了——渔父不是比喻，是他的职业。" }
+    ],
+    films: [{ title: "屈原", year: 1977, director: "鲍方", mode: "承", scene: "江边，渔父与屈原对话：何必要守着清白投江呢？", emotion: "渔父与屈原的江边对话", lineage: "沧浪之水清兮可以濯吾缨——渔父劝屈原随波逐流，屈原选择了投江。" }],
+    books: [{ title: "楚辞·渔父", author: "屈原（传）", mode: "承", scene: "全文就是一场对话——一个要清白，一个要快活。", emotion: "渔父的对话义", lineage: "全文就是一场对话——一个要清白，一个要快活。" }],
+    eras: [
+      { era: "战国", quote: "沧浪之水清兮", from: "《楚辞·渔父》", note: "渔父的隐逸义定型。" },
+      { era: "唐", quote: "斜风细雨不须归", from: "张志和《渔歌子》", note: "渔父的快活义。" }
+    ]
+  },
+  "隐者": { name: "隐者", category: "人物", wiki: "隐士", tier: "standard",
+    summary: "隐者是找不到的人：贾岛去寻他，童子说「只在此山中，云深不知处」——隐者始终没出现，反而无处不在。",
+    aliases: [
+      { alias: "隐士", kind: "通称", note: "隐居之人", quote: "按：习用语汇（整理）", from: "按：古人语汇（整理）" },
+      { alias: "高士", kind: "尊称", note: "志行高洁之士", quote: "按：习用语汇（整理）", from: "按：古人语汇（整理）" }
+    ],
+    emotions: [
+      { emotion: "云深之寻", note: "只在此山中，云深不知处", evidences: [{ quote: "松下问童子，言师采药去。只在此山中，云深不知处", from: "贾岛《寻隐者不遇》" }] },
+      { emotion: "大隐之境", note: "小隐隐陵薮，大隐隐朝市", evidences: [{ quote: "小隐隐陵薮，大隐隐朝市", from: "晋·王康琚《反招隐诗》" }] }
+    ],
+    compounds: [
+      { name: "云深不知处", formula: "隐者 + 云深 + 不遇", carries: "不遇之遇", quote: "只在此山中，云深不知处", from: "贾岛《寻隐者不遇》", note: "问答体三句问一句答——隐者始终没出现，反而无处不在。" },
+      { name: "大隐隐朝市", formula: "隐者 + 朝市 + 大隐", carries: "隐居的最高形态", quote: "小隐隐陵薮，大隐隐朝市", from: "王康琚《反招隐诗》", note: "真正的隐士不需要躲进山里——在闹市也能隐。" }
+    ],
+    films: [{ title: "空山灵雨", year: 1979, director: "胡金铨", mode: "承", scene: "深山古寺，各方人马为争夺玄奘手书明心见性。", emotion: "空山灵雨的隐者世界", lineage: "云深不知处——胡金铨的寺庙藏在云里。" }],
+    books: [{ title: "寻隐者不遇", author: "贾岛", mode: "承", scene: "问答体：松下问童子，言师采药去。", emotion: "隐者的不遇义", lineage: "问答体三句问一句答——隐者始终没出现，反而无处不在。" }],
+    eras: [
+      { era: "唐", quote: "云深不知处", from: "贾岛《寻隐者不遇》", note: "隐者的朦胧义定型。" },
+      { era: "晋", quote: "大隐隐朝市", from: "王康琚《反招隐诗》", note: "隐者的境界义。" }
+    ]
+  },
+  "布衣": { name: "布衣", category: "人物", wiki: "布衣", tier: "standard",
+    summary: "布衣是平民的自称：诸葛亮说「臣本布衣」，唐雎说布衣之怒「伏尸二人流血五步」——布衣没有权力，但有骨头。",
+    aliases: [
+      { alias: "白衣", kind: "借代", note: "无功名者着白衣", quote: "按：无功名者着白衣之制（整理）", from: "按：古代服饰制度（整理）" },
+      { alias: "黎庶", kind: "借代", note: "黎民百姓", quote: "按：习用语汇（整理）", from: "按：古人语汇（整理）" }
+    ],
+    emotions: [
+      { emotion: "本布衣之谦", note: "臣本布衣，躬耕于南阳", evidences: [{ quote: "臣本布衣，躬耕于南阳，苟全性命于乱世，不求闻达于诸侯", from: "诸葛亮《出师表》" }] },
+      { emotion: "布衣之怒", note: "伏尸二人，流血五步，天下缟素", evidences: [{ quote: "若士必怒，伏尸二人，流血五步，天下缟素", from: "《战国策·魏策四》唐雎不辱使命" }] }
+    ],
+    compounds: [
+      { name: "臣本布衣", formula: "布衣 + 躬耕 + 出师", carries: "自谦的开场白", quote: "臣本布衣，躬耕于南阳", from: "诸葛亮《出师表》", note: "出师表的开场：先说自己什么都不是，再说自己要做什么。" },
+      { name: "布衣之怒", formula: "布衣 + 伏尸二人 + 天下缟素", carries: "平民的血性", quote: "若士必怒，伏尸二人，流血五步，天下缟素", from: "《战国策》", note: "秦王色挠——布衣赢了天子。" }
+    ],
+    films: [{ title: "荆轲刺秦王", year: 1998, director: "陈凯歌", mode: "化用", scene: "荆轲持樊於期头颅与督亢地图入秦，图穷匕见。", emotion: "布衣之怒的血溅五步", lineage: "唐雎说布衣之怒伏尸二人——荆轲真的做到了。" }],
+    books: [{ title: "战国策·魏策四", author: "刘向 编", mode: "承", scene: "唐雎不辱使命：布衣之怒的原文。", emotion: "布衣之怒的原文", lineage: "秦王色挠，长跪而谢之——布衣赢了。" }],
+    eras: [
+      { era: "三国", quote: "臣本布衣", from: "诸葛亮《出师表》", note: "布衣的自谦义。" },
+      { era: "战国", quote: "布衣之怒", from: "《战国策》", note: "布衣的血性义。" }
+    ]
+  },
+  "苍生": { name: "苍生", category: "人物", wiki: "苍生", tier: "standard",
+    summary: "苍生是杜甫心头的全部重量：自己的茅屋被吹破，想的是「大庇天下寒士俱欢颜」——苍生就是他的房子。",
+    aliases: [
+      { alias: "黎元", kind: "古称", note: "黎民百姓", quote: "穷年忧黎元，叹息肠内热", from: "杜甫《自京赴奉先县咏怀五百字》" },
+      { alias: "寒士", kind: "借代", note: "贫寒之士", quote: "大庇天下寒士俱欢颜", from: "杜甫《茅屋为秋风所破歌》" }
+    ],
+    emotions: [
+      { emotion: "穷年之忧", note: "一年到头都在为百姓发愁", evidences: [{ quote: "穷年忧黎元，叹息肠内热", from: "杜甫《自京赴奉先县咏怀五百字》" }] },
+      { emotion: "广厦之愿", note: "自己的屋破了，想的是天下寒士", evidences: [{ quote: "安得广厦千万间，大庇天下寒士俱欢颜", from: "杜甫《茅屋为秋风所破歌》" }] }
+    ],
+    compounds: [
+      { name: "安得广厦千万间", formula: "苍生 + 广厦 + 大庇", carries: "破屋里的天下", quote: "安得广厦千万间，大庇天下寒士俱欢颜", from: "杜甫《茅屋为秋风所破歌》", note: "自己的茅屋被吹破，想的却是天下寒士——杜甫的格局。" },
+      { name: "穷年忧黎元", formula: "苍生 + 叹息 + 肠内热", carries: "忧民的体温", quote: "穷年忧黎元，叹息肠内热", from: "杜甫《自京赴奉先县》", note: "肠内热——忧愁是有体温的。" }
+    ],
+    films: [{ title: "我不是药神", year: 2018, director: "文牧野", mode: "化用", scene: "程勇从卖保健品到代购天价药，成为病人的「药神」。", emotion: "药神的大庇", lineage: "安得广厦千万间大庇天下寒士——程勇的药，庇的是病人。" }],
+    books: [{ title: "茅屋为秋风所破歌", author: "杜甫", mode: "承", scene: "床头屋漏无干处，雨脚如麻未断绝——破屋里的天下。", emotion: "苍生的格局", lineage: "自己的茅屋被吹破，想的却是天下寒士——杜甫的格局。" }],
+    eras: [
+      { era: "唐", quote: "大庇天下寒士俱欢颜", from: "杜甫《茅屋为秋风所破歌》", note: "苍生的大庇义定型。" },
+      { era: "唐", quote: "穷年忧黎元", from: "杜甫《自京赴奉先县咏怀》", note: "苍生的忧愁义。" }
+    ]
+  },
+  "烟树": { name: "烟树", category: "草木", wiki: "烟树", tier: "standard",
+    summary: "烟树是被暮色笼罩的树：李白看它「平林漠漠烟如织」——烟树一织，天就快黑了。",
+    aliases: [
+      { alias: "平林漠漠", kind: "凝固语汇", note: "平林烟织之景", quote: "平林漠漠烟如织，寒山一带伤心碧", from: "李白《菩萨蛮·平林漠漠烟如织》" },
+      { alias: "烟如织", kind: "借代", note: "烟如织物", quote: "平林漠漠烟如织", from: "李白《菩萨蛮》" }
+    ],
+    emotions: [
+      { emotion: "烟织之愁", note: "烟如织——愁也如织", evidences: [{ quote: "平林漠漠烟如织，寒山一带伤心碧", from: "李白《菩萨蛮》" }] },
+      { emotion: "宿鸟之急", note: "鸟都急着归巢了，人还没到", evidences: [{ quote: "玉阶空伫立，宿鸟归飞急", from: "李白《菩萨蛮》" }] }
+    ],
+    compounds: [
+      { name: "平林漠漠烟如织", formula: "烟树 + 漠漠 + 伤心碧", carries: "百代词曲之祖", quote: "平林漠漠烟如织，寒山一带伤心碧", from: "李白《菩萨蛮》（传）", note: "被誉为「百代词曲之祖」——开头就是一团烟。" },
+      { name: "宿鸟归飞急", formula: "烟树 + 宿鸟 + 玉阶", carries: "鸟都回家了", quote: "玉阶空伫立，宿鸟归飞急", from: "李白《菩萨蛮》", note: "鸟急着归巢，人还站在玉阶上空等。" }
+    ],
+    films: [{ title: "一代宗师", year: 2013, director: "王家卫", mode: "化用", scene: "宫二雪夜车站，树影灯影里送别父亲。", emotion: "烟树雪夜的心事", lineage: "平林漠漠烟如织——宫二的雪夜，烟树就是她的心事。" }],
+    books: [{ title: "菩萨蛮·平林漠漠烟如织", author: "李白（传）", mode: "承", scene: "暝色入高楼，有人楼上愁——百代词曲之祖。", emotion: "烟树的词祖义", lineage: "被誉为百代词曲之祖——开头就是一团烟。" }],
+    eras: [
+      { era: "唐", quote: "平林漠漠烟如织", from: "李白《菩萨蛮》（传）", note: "烟树的词祖义定型。" }
+    ]
+  },
+  "轻雷": { name: "轻雷", category: "天象", wiki: "轻雷", tier: "standard",
+    summary: "轻雷是远处滚来的闷雷：李商隐听它在芙蓉塘外响——轻雷不吓人，但它是大雨的前奏，也是心动的声音。",
+    aliases: [
+      { alias: "细雨轻雷", kind: "并称", note: "细雨与轻雷并至", quote: "飒飒东风细雨来，芙蓉塘外有轻雷", from: "李商隐《无题四首·其一》" },
+      { alias: "车雷", kind: "喻称", note: "雷声如车轮", quote: "按：以车声喻雷（整理）", from: "按：古人语汇（整理）" }
+    ],
+    emotions: [
+      { emotion: "芙蓉塘外", note: "塘外有轻雷——心动了", evidences: [{ quote: "飒飒东风细雨来，芙蓉塘外有轻雷", from: "李商隐《无题四首·其一》" }] },
+      { emotion: "东风细雨", note: "东风飒飒，细雨蒙蒙", evidences: [{ quote: "飒飒东风细雨来", from: "李商隐《无题》" }] }
+    ],
+    compounds: [
+      { name: "芙蓉塘外有轻雷", formula: "轻雷 + 芙蓉塘 + 心动", carries: "心动的声音", quote: "芙蓉塘外有轻雷", from: "李商隐《无题》", note: "轻雷是心动的声音——远、闷、断不了。" },
+      { name: "飒飒东风", formula: "轻雷 + 东风 + 细雨", carries: "春天的前奏", quote: "飒飒东风细雨来", from: "李商隐《无题》", note: "东风细雨轻雷三件套——春天到货前的物流信息。" }
+    ],
+    films: [{ title: "雷雨", year: 1984, director: "孙道临", mode: "化用", scene: "周公馆的雷雨夜，三十年秘密在一夜炸开。", emotion: "轻雷变惊雷", lineage: "芙蓉塘外有轻雷——《雷雨》把轻雷滚成了毁灭的惊雷。" }],
+    books: [{ title: "雷雨", author: "曹禺", mode: "化用", scene: "曹禺话剧：周公馆的雷雨——中国话剧的巅峰。", emotion: "雷雨的话剧本体", lineage: "周公馆的雷雨——曹禺把中国家庭的秘密都装进了一场雷雨。" }],
+    eras: [
+      { era: "唐", quote: "芙蓉塘外有轻雷", from: "李商隐《无题》", note: "轻雷的心动义。" },
+      { era: "现代", quote: "雷雨", from: "曹禺《雷雨》", note: "轻雷的惊雷义。" }
+    ]
+  },
+  "远浦": { name: "远浦", category: "地理", wiki: "远浦", tier: "standard",
+    summary: "远浦是远处的水滨：「远浦归帆」列潇湘八景——柳永说有人在那里望穿秋水，数错了好几艘归舟。",
+    aliases: [
+      { alias: "远浦归帆", kind: "八景借代", note: "潇湘八景之一", quote: "按：潇湘八景之「远浦归帆」（整理）", from: "按：宋·沈括《梦溪笔谈》载潇湘八景（整理）" },
+      { alias: "天际归舟", kind: "诗句借代", note: "柳永名句", quote: "想佳人妆楼颙望，误几回、天际识归舟", from: "柳永《八声甘州·对潇潇暮雨洒江天》" }
+    ],
+    emotions: [
+      { emotion: "归帆之望", note: "远浦的帆，一帆一望", evidences: [{ quote: "按：潇湘八景之「远浦归帆」（整理）", from: "按：宋人山水传统（整理）" }] },
+      { emotion: "误识之舟", note: "误几回天际识归舟——认错好几艘", evidences: [{ quote: "想佳人妆楼颙望，误几回、天际识归舟", from: "柳永《八声甘州》" }] }
+    ],
+    compounds: [
+      { name: "远浦归帆", formula: "远浦 + 归帆 + 潇湘", carries: "水路的归途", quote: "按：潇湘八景之「远浦归帆」（整理）", from: "按：宋人山水传统（整理）", note: "潇湘八景之一——远浦是归途的最后一站。" },
+      { name: "天际识归舟", formula: "远浦 + 天际 + 识舟", carries: "认错的浪漫", quote: "误几回、天际识归舟", from: "柳永《八声甘州》", note: "「误几回」最狠：不是没等，是等错了好几艘。" }
+    ],
+    films: [{ title: "海角七号", year: 2008, director: "魏德圣", mode: "化用", scene: "恒春海角，七封迟到六十年的信终于靠岸。", emotion: "远浦归帆的恒春版", lineage: "远浦归帆——七封迟到六十年的信，终于靠了岸。" }],
+    books: [{ title: "八声甘州·对潇潇暮雨洒江天", author: "柳永", mode: "承", scene: "霜风凄紧，关河冷落，残照当楼——苏轼赞「不减唐人高处」。", emotion: "远浦的登高义", lineage: "苏轼赞其不减唐人高处——霜风凄紧关河冷落残照当楼。" }],
+    eras: [
+      { era: "宋", quote: "误几回天际识归舟", from: "柳永《八声甘州》", note: "远浦的等待义定型。" }
+    ]
+  },
+  "暮色": { name: "暮色", category: "天象", wiki: "暮色", tier: "standard",
+    summary: "暮色是白昼的谢幕：李白看它「暝色入高楼」，欧阳修看它「人约黄昏后」——暮色一到，该愁的愁，该约的约。",
+    aliases: [
+      { alias: "暝色", kind: "异名", note: "暮色昏暗", quote: "暝色入高楼，有人楼上愁", from: "李白《菩萨蛮·平林漠漠烟如织》" },
+      { alias: "黄昏", kind: "异名", note: "日落时分", quote: "月上柳梢头，人约黄昏后", from: "欧阳修《生查子·元夕》" }
+    ],
+    emotions: [
+      { emotion: "暝色入楼", note: "暮色自己会爬楼", evidences: [{ quote: "暝色入高楼，有人楼上愁", from: "李白《菩萨蛮》" }] },
+      { emotion: "人约黄昏", note: "黄昏后的约会", evidences: [{ quote: "月上柳梢头，人约黄昏后", from: "欧阳修《生查子·元夕》" }] }
+    ],
+    compounds: [
+      { name: "暝色入高楼", formula: "暮色 + 高楼 + 愁人", carries: "暮色会自己上楼", quote: "暝色入高楼，有人楼上愁", from: "李白《菩萨蛮》", note: "暮色像客人一样自己走进楼里——「入」字最妙。" },
+      { name: "人约黄昏后", formula: "暮色 + 元夕 + 约会", carries: "暮色的甜蜜版", quote: "月上柳梢头，人约黄昏后", from: "欧阳修《生查子·元夕》", note: "去年与今年，同一地点两种心情——物是人非的元夕版。" }
+    ],
+    films: [{ title: "暮光之城", year: 2008, director: "凯瑟琳·哈德威克", mode: "化用", scene: "贝拉与爱德华的黄昏约会，暮色里的爱情禁忌。", emotion: "暮色里的爱情禁忌", lineage: "人约黄昏后——贝拉与爱德华的黄昏约会，比欧阳修多了獠牙。" }],
+    books: [{ title: "生查子·元夕", author: "欧阳修", mode: "承", scene: "去年元夜时，花市灯如昼——今年元夜时，不见去年人。", emotion: "暮色的物是人非", lineage: "月上柳梢头——去年与今年，同一地点两种心情。" }],
+    eras: [
+      { era: "唐", quote: "暝色入高楼", from: "李白《菩萨蛮》（传）", note: "暮色的登楼义。" },
+      { era: "宋", quote: "人约黄昏后", from: "欧阳修《生查子》", note: "暮色的约会义。" }
+    ]
+  }
+};
+for (const [k, e] of Object.entries(STD_ENTRIES5C)) {
+  if (!WUSE.imagery[k]) WUSE.imagery[k] = e;
+}
+
 /* 标准精选第二批（一）：残月 孤灯 寒窗 故人 长安 塞北 渔火 烽火 鼓角 */
 const STD_ENTRIES2 = {
   "残月": { name: "残月", category: "天象", wiki: "月", tier: "standard",
