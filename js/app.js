@@ -1,4 +1,4 @@
-/* ============================================================
+﻿/* ============================================================
  * 物色集 · 应用主逻辑（app.js）
  * 路由：#/ 首页 · #/i/意象 详情 · #/k/关键词 联网检索 · #/net 意象网 · #/about 关于
  * ============================================================ */
@@ -406,80 +406,146 @@
     });
   }
 
-  function wireShare(d) {
+  /* ---------- 详情页公共：锚点目录 + 分享卡片 ---------- */
+  function wireSecNav() {
+    const nav = $("#sec-nav");
+    if (!nav) return;
+    const secs = [...view.querySelectorAll(".detail-section[id]")];
+    nav.innerHTML = secs.map(s => {
+      const h = s.querySelector("h2");
+      const label = h ? h.textContent.split("·")[0].trim().slice(0, 4) : s.id;
+      return `<button type="button" data-t="${s.id}">${esc(label)}</button>`;
+    }).join("");
+    nav.addEventListener("click", e => {
+      const b = e.target.closest("button[data-t]");
+      if (!b) return;
+      const el = document.getElementById(b.dataset.t);
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  }
+
+  async function wireShare(d) {
     const btn = $("#btn-share");
     if (!btn) return;
-    btn.addEventListener("click", () => {
-      const W = 900, H = 500;
+    btn.addEventListener("click", async () => {
+      btn.disabled = true;
+      /* 预加载毛笔字体，保证 canvas 渲染 */
+      try {
+        if (document.fonts && document.fonts.load) {
+          await Promise.all([
+            document.fonts.load("96px 'Ma Shan Zheng'"),
+            document.fonts.load("32px 'Ma Shan Zheng'"),
+            document.fonts.ready
+          ]);
+        }
+      } catch (e) { /* 字体加载失败则回退系统字体 */ }
+
+      const W = 900, H = 560;
       const cv = document.createElement("canvas");
       cv.width = W; cv.height = H;
       const ctx = cv.getContext("2d");
-      const FONT = "'Ma Shan Zheng','KaiTi','STKaiti',serif";
+      const BRUSH = "'Ma Shan Zheng','KaiTi','STKaiti',serif";
       const SONG = "'Noto Serif SC','SimSun',serif";
+      const CREAM = "#f7f2e6", RED = "#9e3d33", INK = "#2f2a24", MUTE = "#8a7f6d";
 
       /* 宣纸底 + 双线框 */
-      ctx.fillStyle = "#f7f2e6";
-      ctx.fillRect(0, 0, W, H);
-      ctx.strokeStyle = "#9e3d33";
-      ctx.lineWidth = 3;
-      ctx.strokeRect(20, 20, W - 40, H - 40);
-      ctx.lineWidth = 1;
-      ctx.strokeRect(32, 32, W - 64, H - 64);
+      ctx.fillStyle = CREAM; ctx.fillRect(0, 0, W, H);
+      ctx.strokeStyle = RED; ctx.lineWidth = 3; ctx.strokeRect(20, 20, W - 40, H - 40);
+      ctx.lineWidth = 1; ctx.strokeRect(32, 32, W - 64, H - 64);
 
-      /* 印章 */
-      ctx.fillStyle = "#9e3d33";
-      if (ctx.roundRect) { ctx.beginPath(); ctx.roundRect(52, 48, 66, 66, 10); ctx.fill(); }
-      else ctx.fillRect(52, 48, 66, 66);
-      ctx.fillStyle = "#f9f4e7";
-      ctx.font = "bold 30px " + FONT;
+      /* 巨型水印字（右下） */
+      ctx.save();
+      ctx.fillStyle = "rgba(158, 61, 51, 0.07)";
+      ctx.font = "340px " + BRUSH;
       ctx.textAlign = "center"; ctx.textBaseline = "middle";
-      ctx.fillText("物", 85, 82);
+      ctx.fillText(Array.from(d.name)[0], W - 210, H - 130);
+      ctx.restore();
+
+      /* 印章 + 站名 */
+      ctx.fillStyle = RED;
+      if (ctx.roundRect) { ctx.beginPath(); ctx.roundRect(52, 50, 64, 64, 10); ctx.fill(); }
+      else ctx.fillRect(52, 50, 64, 64);
+      ctx.fillStyle = CREAM;
+      ctx.font = "bold 30px " + BRUSH;
+      ctx.textAlign = "center"; ctx.textBaseline = "middle";
+      ctx.fillText("物", 84, 83);
+      ctx.textAlign = "left"; ctx.textBaseline = "alphabetic";
+      ctx.fillStyle = INK;
+      ctx.font = "bold 24px " + SONG;
+      ctx.fillText("物色集", 136, 76);
+      ctx.fillStyle = MUTE;
+      ctx.font = "13px " + SONG;
+      ctx.fillText("意象百科 · 意象网", 136, 100);
 
       /* 意象名 + 类别 */
-      ctx.textAlign = "left"; ctx.textBaseline = "alphabetic";
-      ctx.fillStyle = "#2f2a24";
-      ctx.font = "bold 72px " + FONT;
-      ctx.fillText(d.name, 150, 108);
+      ctx.fillStyle = INK;
+      ctx.font = "bold 92px " + BRUSH;
+      ctx.fillText(d.name, 54, 226);
+      const nameW = ctx.measureText(d.name).width;
+      ctx.fillStyle = MUTE;
       ctx.font = "20px " + SONG;
-      ctx.fillStyle = "#8a7f6d";
-      ctx.fillText("〔" + d.category + "〕", 160 + ctx.measureText(d.name).width + 60, 104);
+      ctx.fillText("〔" + d.category + "〕", 62 + nameW, 222);
 
-      /* 名句 */
+      /* 红色分隔线 */
+      ctx.fillStyle = RED;
+      ctx.fillRect(56, 252, 130, 3);
+
+      /* 简介（左侧，最多 4 行） */
+      ctx.fillStyle = INK;
+      ctx.font = "19px " + SONG;
+      let line = "", lines = [];
+      const maxW = W - 300, lh = 34;
+      for (const ch of d.summary) {
+        if (ctx.measureText(line + ch).width > maxW) {
+          lines.push(line); line = ch;
+          if (lines.length >= 4) { lines[3] += "……"; break; }
+        } else line += ch;
+      }
+      if (lines.length < 4 && line) lines.push(line);
+      lines.forEach((l, i) => ctx.fillText(l, 56, 316 + i * lh));
+
+      /* 名句竖排（右侧，从右至左两列） */
       const quote = (d.aliases || []).find(a => a.quote)?.quote
         || (d.emotions || []).flatMap(e => e.evidences || [])[0]?.quote
         || (d.examples || [])[0]?.line || "";
       if (quote) {
-        ctx.fillStyle = "#9e3d33";
-        ctx.font = "26px " + SONG;
-        ctx.fillText("「" + quote.slice(0, 24) + (quote.length > 24 ? "……」" : "」"), 56, 168);
+        const chars = Array.from(quote.replace(/[「」]/g, "")).slice(0, 26);
+        const col1 = chars.slice(0, 13), col2 = chars.slice(13, 26);
+        ctx.fillStyle = RED;
+        ctx.font = "28px " + SONG;
+        ctx.textAlign = "center"; ctx.textBaseline = "middle";
+        const drawCol = (arr, x) => arr.forEach((ch, i) => ctx.fillText(ch, x, 150 + i * 36));
+        drawCol(col1, W - 92);
+        if (col2.length) drawCol(col2, W - 140);
+        /* 名句下方小字出处感装饰线 */
+        ctx.fillStyle = "rgba(158, 61, 51, 0.35)";
+        ctx.fillRect(W - 104, 150 + col1.length * 36 + 8, 2, 24);
       }
 
-      /* 简介（自动换行，最多 5 行） */
-      ctx.fillStyle = "#2f2a24";
-      ctx.font = "19px " + SONG;
-      const maxW = W - 130, lh = 34;
-      let line = "", lines = [];
-      for (const ch of d.summary) {
-        if (ctx.measureText(line + ch).width > maxW) {
-          lines.push(line); line = ch;
-          if (lines.length >= 5) { lines[4] += "……"; break; }
-        } else line += ch;
-      }
-      if (lines.length < 5 && line) lines.push(line);
-      lines.forEach((l, i) => ctx.fillText(l, 56, 220 + i * lh));
-
-      /* 底部信息 */
-      ctx.fillStyle = "#8a7f6d";
-      ctx.font = "16px " + SONG;
-      ctx.fillText("物色集 · 意象百科", 56, H - 56);
+      /* 底部信息 + 名末红印 */
+      ctx.fillStyle = MUTE;
+      ctx.font = "15px " + SONG;
+      ctx.textAlign = "left"; ctx.textBaseline = "alphabetic";
+      ctx.fillText("物色集 · 意象百科", 56, H - 54);
       ctx.textAlign = "right";
-      ctx.fillText("物色之动，心亦摇焉", W - 56, H - 56);
+      ctx.fillText("物色之动，心亦摇焉", W - 170, H - 54);
+      /* 名末小红印 */
+      const stampChar = Array.from(d.name)[0];
+      ctx.fillStyle = RED;
+      if (ctx.roundRect) { ctx.beginPath(); ctx.roundRect(W - 140, H - 118, 56, 56, 8); ctx.fill(); }
+      else ctx.fillRect(W - 140, H - 118, 56, 56);
+      ctx.fillStyle = CREAM;
+      ctx.font = "bold 30px " + BRUSH;
+      ctx.textAlign = "center"; ctx.textBaseline = "middle";
+      ctx.fillText(stampChar, W - 112, H - 89);
 
       /* 下载 */
+      ctx.textAlign = "left"; ctx.textBaseline = "alphabetic";
       const a = document.createElement("a");
       a.download = "物色集-" + d.name + ".png";
       a.href = cv.toDataURL("image/png");
       a.click();
+      btn.disabled = false;
     });
   }
 
